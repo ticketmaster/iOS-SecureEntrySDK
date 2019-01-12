@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04910D1B21B1F5CB005F9D34"
-               BuildableName = "Presence.framework"
-               BlueprintName = "SecureEntryView"
-               ReferencedContainer = "container:SecureEntryView.xcodeproj">
+               BlueprintIdentifier = "04772B3F21E564A9005E08D6"
+               BuildableName = "SecureEntryView-Sample.app"
+               BlueprintName = "SecureEntryView-Sample"
+               ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,20 +32,30 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04910D2421B1F5CB005F9D34"
-               BuildableName = "SecureEntryViewTests.xctest"
-               BlueprintName = "SecureEntryViewTests"
-               ReferencedContainer = "container:SecureEntryView.xcodeproj">
+               BlueprintIdentifier = "04772B5621E564B1005E08D6"
+               BuildableName = "SecureEntryView-SampleTests.xctest"
+               BlueprintName = "SecureEntryView-SampleTests"
+               ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04772B6121E564B1005E08D6"
+               BuildableName = "SecureEntryView-SampleUITests.xctest"
+               BlueprintName = "SecureEntryView-SampleUITests"
+               ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04910D1B21B1F5CB005F9D34"
-            BuildableName = "Presence.framework"
-            BlueprintName = "SecureEntryView"
-            ReferencedContainer = "container:SecureEntryView.xcodeproj">
+            BlueprintIdentifier = "04772B3F21E564A9005E08D6"
+            BuildableName = "SecureEntryView-Sample.app"
+            BlueprintName = "SecureEntryView-Sample"
+            ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -61,15 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04910D1B21B1F5CB005F9D34"
-            BuildableName = "Presence.framework"
-            BlueprintName = "SecureEntryView"
-            ReferencedContainer = "container:SecureEntryView.xcodeproj">
+            BlueprintIdentifier = "04772B3F21E564A9005E08D6"
+            BuildableName = "SecureEntryView-Sample.app"
+            BlueprintName = "SecureEntryView-Sample"
+            ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -79,15 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04910D1B21B1F5CB005F9D34"
-            BuildableName = "Presence.framework"
-            BlueprintName = "SecureEntryView"
-            ReferencedContainer = "container:SecureEntryView.xcodeproj">
+            BlueprintIdentifier = "04772B3F21E564A9005E08D6"
+            BuildableName = "SecureEntryView-Sample.app"
+            BlueprintName = "SecureEntryView-Sample"
+            ReferencedContainer = "container:SecureEntryView-Sample.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

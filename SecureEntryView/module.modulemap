@@ -1,12 +1,12 @@
 
-framework module SecureEntryView {
+framework module Presence {
 	
 	umbrella header "SecureEntryView.h"
 	
 	export *
 	module * {export *}
 }
-module SecureEntryView.Private {
+module Presence.Private {
 	
 	// ObjC headers here (e.g. Lottie Framework)
 }

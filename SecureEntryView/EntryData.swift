@@ -70,7 +70,9 @@ struct EntryData: Decodable {
 		// Read barcode value if this is a .BARCODE payload
 		do {
 			barcode = try values.decode(String.self, forKey: CodingKeys.barcode)
-			segmentType = .BARCODE
+            if let barcode = barcode, barcode.lengthOfBytes(using: String.Encoding.ascii) > 0 {
+                segmentType = .BARCODE
+            }
 		} catch {
 			// Not a barcode payload
 		}
@@ -80,7 +82,9 @@ struct EntryData: Decodable {
 			token = try values.decode(String.self, forKey: CodingKeys.token)
 			customerKey = try values.decode(String.self, forKey: CodingKeys.customerKey)
 			eventKey = try values.decodeIfPresent(String.self, forKey: CodingKeys.eventKey)
-			segmentType = .ROTATING_SYMBOLOGY
+            if let token = token, token.lengthOfBytes(using: String.Encoding.ascii) > 0, let customerKey = customerKey, customerKey.lengthOfBytes(using: String.Encoding.ascii) > 0 {
+                segmentType = .ROTATING_SYMBOLOGY
+            }
 		} catch {
 			// Not a RET token
 		}

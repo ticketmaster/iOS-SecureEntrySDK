@@ -21,7 +21,7 @@ git clone https://github.com/ticketmaster/iOS-SecureEntrySDK
 ```
 
 2. Add the `SecureEntryView.xcodeproj` from the cloned repository in your own Xcode project.
-3. Link `SecureEntryView.framework` with your target
+3. Link `Presence.framework` with your target
 4. Add Copy Files Build Phase to include the framework to your application bundle
 
 ## Usage
@@ -37,6 +37,10 @@ Simply include a UIView within your storyboard, and override it's class type to 
 or you may add it to a ViewController programmatically:
 
 ```swift
+import Presence
+
+...
+
 var secureEntryView = Presence.SecureEntryView(frame: frameRect)
 self.addSubview(secureEntryView)
 ```

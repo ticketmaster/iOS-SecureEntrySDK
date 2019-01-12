@@ -15,7 +15,7 @@ import Foundation
 /// print(Clock.now)
 /// ```
 struct Clock {
-    private static var stableTime: TimeFreeze? {
+    private static var stableTime: TimeFreeze? = TimeFreeze(offset: 0) {
         didSet {
             self.storage.stableTime = self.stableTime
         }
