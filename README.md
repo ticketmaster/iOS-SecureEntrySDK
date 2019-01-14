@@ -32,7 +32,7 @@ git clone https://github.com/ticketmaster/iOS-SecureEntrySDK
 
 ### Adding the view
 
-Simply include a UIView within your storyboard, and override it's class type to `Presence.SecureEntryView`, and link it to your code using an outlet:
+Simply include a UIView within your storyboard, and override it's class type to `SecureEntryView`, and link it to your code using an outlet:
 
 ```swift
 @IBOutlet weak var secureEntryView: Presence.SecureEntryView!
