@@ -26,6 +26,10 @@ git clone https://github.com/ticketmaster/iOS-SecureEntrySDK
 
 ## Usage
 
+| Storyboard Example | Result |
+|:-------------:|:-----:|
+| ![Storyboard](Storyboard.png "Storyboard") | ![Screenshot](Screenshot.png "Screenshot") |
+
 ### Adding the view
 
 Simply include a UIView within your storyboard, and override it's class type to `Presence.SecureEntryView`, and link it to your code using an outlet:

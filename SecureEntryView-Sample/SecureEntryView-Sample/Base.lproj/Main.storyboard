@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZlN-v6-9qz">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,14 +15,14 @@
             <objects>
                 <viewController id="OJy-Y5-RqE" customClass="StaticViewController" customModule="SecureEntryView_Sample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EgK-M4-J5l">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RLL-x7-Sor">
-                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secure Entry View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTB-tB-ICL">
-                                        <rect key="frame" x="16" y="16" width="343" height="33"/>
+                                        <rect key="frame" x="16" y="16" width="382" height="33"/>
                                         <color key="tintColor" red="0.1450980392" green="0.34509803919999998" blue="0.81568627449999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="pmP-hk-FJe"/>
@@ -32,7 +32,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STATIC SAMPLES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EzA-c8-qIo">
-                                        <rect key="frame" x="16" y="47" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="47" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="MZR-DD-X8i"/>
                                         </constraints>
@@ -41,7 +41,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Static" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVu-Py-8hh">
-                                        <rect key="frame" x="16" y="100" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="100" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="xUd-bl-tUI"/>
                                         </constraints>
@@ -50,7 +50,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1E-YT-nbg" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="107.5" y="131" width="160" height="160"/>
+                                        <rect key="frame" x="127" y="131" width="160" height="160"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="160" id="LNB-fr-iYm"/>
                                             <constraint firstAttribute="width" secondItem="T1E-YT-nbg" secondAttribute="height" multiplier="1:1" id="eeR-nk-jil"/>
@@ -64,7 +64,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Static (sized)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="un1-W0-Pxb">
-                                        <rect key="frame" x="16" y="339" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="339" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="W3R-rJ-1vS"/>
                                         </constraints>
@@ -73,7 +73,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0N8-dH-HZK" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="67.5" y="370" width="240" height="240"/>
+                                        <rect key="frame" x="87" y="370" width="240" height="240"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0N8-dH-HZK" secondAttribute="height" multiplier="1:1" id="mku-BQ-6BB"/>
                                             <constraint firstAttribute="width" constant="240" id="wpY-Bs-vvq"/>
@@ -86,7 +86,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Static (full-width)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3W-oP-CRq">
-                                        <rect key="frame" x="16" y="658" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="658" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="w7G-fG-bGk"/>
                                         </constraints>
@@ -95,7 +95,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xbd-gp-2cu" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="16" y="689" width="343" height="343"/>
+                                        <rect key="frame" x="16" y="689" width="382" height="382"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Xbd-gp-2cu" secondAttribute="height" multiplier="1:1" id="AJ9-6m-zNb"/>
                                         </constraints>
@@ -107,7 +107,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (No token)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHf-dC-G8T">
-                                        <rect key="frame" x="16" y="1080" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="1119" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="1ek-sE-O1Q"/>
                                         </constraints>
@@ -116,7 +116,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jca-ff-Nss" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="48" y="1111" width="279" height="56"/>
+                                        <rect key="frame" x="67.5" y="1150" width="279" height="56"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="279" id="f2l-k7-thK"/>
                                             <constraint firstAttribute="width" secondItem="jca-ff-Nss" secondAttribute="height" multiplier="5:1" id="w25-Hx-sUC"/>
@@ -128,7 +128,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (Invalid)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0R-nI-6CA">
-                                        <rect key="frame" x="16" y="1215" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="1254" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="dJ9-cw-DV8"/>
                                         </constraints>
@@ -137,7 +137,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tBQ-le-XGv" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="48" y="1246" width="279" height="55.5"/>
+                                        <rect key="frame" x="67.5" y="1285" width="279" height="55.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="tBQ-le-XGv" secondAttribute="height" multiplier="5:1" id="Buh-iQ-v77"/>
                                             <constraint firstAttribute="width" constant="279" id="TAF-Xx-pAh"/>
@@ -215,14 +215,14 @@
             <objects>
                 <viewController id="8ZN-Oy-Ncl" customClass="RotatingViewController" customModule="SecureEntryView_Sample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V4m-rJ-rXi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-1N-Fhg">
-                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secure Entry View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xs-X5-Ty3">
-                                        <rect key="frame" x="16" y="16" width="343" height="33"/>
+                                        <rect key="frame" x="16" y="16" width="382" height="33"/>
                                         <color key="tintColor" red="0.14509803921568629" green="0.34509803921568627" blue="0.81568627450980391" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="KtS-dO-c9e"/>
@@ -232,7 +232,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ROTATING SAMPLES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-GD-DKL">
-                                        <rect key="frame" x="16" y="47" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="47" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="Ile-pa-ESa"/>
                                         </constraints>
@@ -241,7 +241,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEc-qo-deX">
-                                        <rect key="frame" x="16" y="100" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="100" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="m1C-3u-1ZG"/>
                                         </constraints>
@@ -250,7 +250,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIW-LW-8P1" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="48" y="131" width="279" height="56"/>
+                                        <rect key="frame" x="48" y="131" width="318" height="63.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="QIW-LW-8P1" secondAttribute="height" multiplier="5:1" id="vyI-e0-3fr"/>
                                         </constraints>
@@ -263,7 +263,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (sized)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xak-AF-Dps">
-                                        <rect key="frame" x="16" y="235" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="242.5" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="kTh-c7-2I2"/>
                                         </constraints>
@@ -272,14 +272,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQF-w8-VYB" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="87.5" y="266" width="200" height="40"/>
+                                        <rect key="frame" x="107" y="273.5" width="200" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="0sW-Sz-PKU"/>
                                             <constraint firstAttribute="width" secondItem="EQF-w8-VYB" secondAttribute="height" multiplier="5:1" id="jyG-hj-ak4"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="livePreview" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (full-width)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rg5-Sm-TRw">
-                                        <rect key="frame" x="16" y="354" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="361.5" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="2cu-Gn-5EI"/>
                                         </constraints>
@@ -288,7 +291,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1t-EN-kPR" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="16" y="385" width="343" height="68.5"/>
+                                        <rect key="frame" x="16" y="392.5" width="382" height="76.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="j1t-EN-kPR" secondAttribute="height" multiplier="5:1" id="9Qk-Vz-lL2"/>
                                         </constraints>
@@ -297,10 +300,11 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="brandingColor">
                                                 <color key="value" red="0.1450980392" green="0.34509803919999998" blue="0.81568627449999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="livePreview" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (No token)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AI-Fw-fXF">
-                                        <rect key="frame" x="16" y="501.5" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="517" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="uMo-jh-ycI"/>
                                         </constraints>
@@ -309,7 +313,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUo-NU-kJs" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="48" y="532.5" width="279" height="55.5"/>
+                                        <rect key="frame" x="48" y="548" width="318" height="63.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="qUo-NU-kJs" secondAttribute="height" multiplier="5:1" id="Sw6-hA-5fb"/>
                                         </constraints>
@@ -320,7 +324,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (Invalid)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVd-fk-7ml">
-                                        <rect key="frame" x="16" y="636" width="343" height="21"/>
+                                        <rect key="frame" x="16" y="659.5" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="XQY-Tg-THR"/>
                                         </constraints>
@@ -329,7 +333,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Taa-31-sZz" customClass="SecureEntryView" customModule="Presence">
-                                        <rect key="frame" x="48" y="667" width="279" height="56"/>
+                                        <rect key="frame" x="48" y="690.5" width="318" height="63.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Taa-31-sZz" secondAttribute="height" multiplier="5:1" id="Hn6-TD-fJZ"/>
                                         </constraints>
