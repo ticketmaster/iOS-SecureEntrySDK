@@ -15,6 +15,22 @@ public final class SecureEntryView: UIView {}
 
 ## Installation
 
+#### Cocoapods
+
+1. Add the following to your PodFile
+```
+pod 'iOS-SecureEntrySDK', :git => 'https://github.com/ticketmaster/iOS-SecureEntrySDK.git'
+```
+
+2. Then run:
+```
+pod install
+-- or --
+pod update
+```
+
+#### Manually
+
 1. Clone SecureEntrySDK from the git repository: https://github.com/ticketmaster/iOS-SecureEntrySDK
 ```
 git clone https://github.com/ticketmaster/iOS-SecureEntrySDK
