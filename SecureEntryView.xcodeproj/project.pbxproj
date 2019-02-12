@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045F8E94220D15100096EEBF /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045F8E93220D15100096EEBF /* UIImage+Gif.swift */; };
 		04910D2621B1F5CB005F9D34 /* Presence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04910D1C21B1F5CB005F9D34 /* Presence.framework */; };
 		04910D2B21B1F5CB005F9D34 /* SecureEntryViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04910D2A21B1F5CB005F9D34 /* SecureEntryViewTests.swift */; };
 		04C9399D21C484190041DAB5 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9393C21C484180041DAB5 /* Generator.swift */; };
@@ -97,6 +98,7 @@
 		04C939FB21C484790041DAB5 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C939F721C484790041DAB5 /* Keychain.swift */; };
 		04C939FC21C484790041DAB5 /* EntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C939F821C484790041DAB5 /* EntryData.swift */; };
 		04C939FD21C484790041DAB5 /* SecureEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C939F921C484790041DAB5 /* SecureEntryView.swift */; };
+		AA5199A8220529920066D0B8 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA5199A7220529920066D0B8 /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,12 +112,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		045F8E93220D15100096EEBF /* UIImage+Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		04910D1C21B1F5CB005F9D34 /* Presence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Presence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04910D2021B1F5CB005F9D34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04910D2521B1F5CB005F9D34 /* SecureEntryViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SecureEntryViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04910D2A21B1F5CB005F9D34 /* SecureEntryViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureEntryViewTests.swift; sourceTree = "<group>"; };
 		04910D2C21B1F5CB005F9D34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04910EB521B8AA02005F9D34 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		04911923220D14660021258C /* SwiftGifOrigin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftGifOrigin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C9393C21C484180041DAB5 /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 		04C9393E21C484180041DAB5 /* SwiftOTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftOTP.h; sourceTree = "<group>"; };
 		04C9393F21C484180041DAB5 /* TOTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TOTP.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 		04C939FF21C871110041DAB5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		04C93A0021C871110041DAB5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		04C93A0321C87E320041DAB5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		AA5199A7220529920066D0B8 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +243,7 @@
 				04910D1E21B1F5CB005F9D34 /* SecureEntryView */,
 				04910D2921B1F5CB005F9D34 /* SecureEntryViewTests */,
 				04910D1D21B1F5CB005F9D34 /* Products */,
+				4C13563F00494D01373D9FF8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -253,6 +259,7 @@
 		04910D1E21B1F5CB005F9D34 /* SecureEntryView */ = {
 			isa = PBXGroup;
 			children = (
+				AA5199A7220529920066D0B8 /* Media.xcassets */,
 				04910EB521B8AA02005F9D34 /* module.modulemap */,
 				04C939F821C484790041DAB5 /* EntryData.swift */,
 				04910D2021B1F5CB005F9D34 /* Info.plist */,
@@ -315,6 +322,7 @@
 				04C9399A21C484180041DAB5 /* TimeStorage.swift */,
 				04C9399B21C484180041DAB5 /* NTPProtocol.swift */,
 				04C9399C21C484180041DAB5 /* NSTimer+ClosureKit.swift */,
+				045F8E93220D15100096EEBF /* UIImage+Gif.swift */,
 			);
 			path = 3rdParty;
 			sourceTree = "<group>";
@@ -429,6 +437,14 @@
 			path = BlockMode;
 			sourceTree = "<group>";
 		};
+		4C13563F00494D01373D9FF8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04911923220D14660021258C /* SwiftGifOrigin.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -522,6 +538,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5199A8220529920066D0B8 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +570,7 @@
 				04C939C321C484190041DAB5 /* ChaCha20+Foundation.swift in Sources */,
 				04C9399D21C484190041DAB5 /* Generator.swift in Sources */,
 				04C939CB21C484190041DAB5 /* SecureBytes.swift in Sources */,
+				045F8E94220D15100096EEBF /* UIImage+Gif.swift in Sources */,
 				04C939E321C484190041DAB5 /* PBKDF1.swift in Sources */,
 				04C939BB21C484190041DAB5 /* Digest.swift in Sources */,
 				04C939A221C484190041DAB5 /* StringExtension.swift in Sources */,
@@ -700,7 +718,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -718,7 +736,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A6W445CNR;
@@ -727,7 +745,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SecureEntryView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -818,7 +836,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -878,7 +896,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -896,7 +914,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A6W445CNR;
@@ -905,7 +923,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SecureEntryView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -929,7 +947,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A6W445CNR;
@@ -938,7 +956,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SecureEntryView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

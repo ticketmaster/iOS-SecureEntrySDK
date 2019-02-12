@@ -103,8 +103,14 @@ struct EntryData: Decodable {
 			self.eventKey = newEntryData.eventKey ?? ""
 			self.segmentType = newEntryData.segmentType ?? .INVALID
 		} catch let error {
+			// Test for valid barcode value, and create static barcode
+			if tokenString.range(of: "^[0-9]{12,16}(?:[A-Za-z])?$", options: .regularExpression, range: nil, locale: nil) != nil {
+				self.barcode = tokenString
+				self.segmentType = .BARCODE
+				return
+			}
 			print(error)
-			print("Exception: Couldn't decode data into Blog")
+			print("Exception: Couldn't decode token data")
 			return
 		}
 	}
