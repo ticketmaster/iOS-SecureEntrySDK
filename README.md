@@ -75,11 +75,26 @@ Since the `SecureEntryView` inherits from a standard `UIView`, you may use any m
 
 ---
 
+### Syncing the time
+
+#### `SecureEntryView.syncTime`
+
+This method is used to begin a background time sync. This method is provided to allow apps to initiate a time sync before a `SecureEntryView` is ever instantiated/displayed.
+
+**Note:** This is a static/singleton method, and must be called on the SecureEntryView class, and not a class instance.
+
+```swift
+// Initiates a background time sync 
+SecureEntryView.syncTime()
+```
+
+---
+
 ### Applying the token
 
 #### `setToken`
 
-This method is used to apply a ticket's 'token' to the view. This will trigger a re-render of the view using the new token's data.
+This method is used to apply a ticket's 'secure token' to the view. This will trigger a re-render of the view using the new token's data.
 
 **Note:** You must call this method otherwise the view will remain blank/empty.
 
@@ -106,6 +121,21 @@ secureEntryView.setBrandingColor(color: theBrandingColor)
 ##### Parameters
 - **color** _(UIColor)_: A color value to apply to the view.
 
+---
+
+### Change the branding color
+
+#### `setErrorText`
+
+Sets a custom text string to display when an error occurs with the provided secure token.
+
+```swift
+secureEntryView.setErrorText(text: theErrorText)
+```
+
+##### Parameters
+- **text** _(String)_: The text to display when an error occurs.
+
 
 ## Acknowledgements
 
@@ -115,5 +145,6 @@ SecureEntrySDK depends on the following open-source projects:
 - **SwiftOTP** by Lachlan Bell (https://github.com/lachlanbell/SwiftOTP)
 - **CryptoSwift** by Marcin Krzyzanowski (https://github.com/krzyzanowskim/CryptoSwift)
 - **KeychainAccess** by Kishikawa Katsumi (https://github.com/kishikawakatsumi/KeychainAccess)
+- **SwiftGif** by Arne Bahlo (https://github.com/swiftgif/SwiftGif)
 
 This product includes software developed by "Marcin Krzyzanowski" (http://krzyzanowskim.com/).
