@@ -63,6 +63,7 @@ internal struct SecureEntryConstants {
 	}
 	
 	struct Strings {
+		static let DefaultErrorText = "Reload ticket"
 	}
 }
 
@@ -110,11 +111,10 @@ internal struct SecureEntryConstants {
 	fileprivate var errorView: UIView?
 	fileprivate var errorIcon: UIImageView?
 	fileprivate var errorLabel: UILabel?
-	fileprivate var errorMessage: String?
 	fileprivate var scanAnimBox: UIView?
 	fileprivate var scanAnimLine: UIView?
-	fileprivate var timer: Timer?
-	fileprivate var toggleTimer: Timer?
+	fileprivate var timer: Timer? = nil
+	fileprivate var toggleTimer: Timer? = nil
 	fileprivate var type: BarcodeType = .pdf417
 	
 	@IBInspectable fileprivate var livePreview: Bool {
@@ -199,31 +199,36 @@ internal struct SecureEntryConstants {
         #endif //!TARGET_INTERFACE_BUILDER
     }
 	
-	public func setErrorText( text: String? ) {
-		self.errorMessage = (text ?? "Reload ticket").truncate(length: 60, trailing: "...")
+    public func showError( text: String? ) {
+        showError( text:text, icon:nil )
+    }
+	public func showError( text: String?, icon: UIImage? ) {
+		self.errorLabel?.text = (text ?? "").truncate(length: 60, trailing: "...")
+		self.errorIcon?.image = icon ?? UIImage(named: "Alert", in: Bundle(for: SecureEntryView.self), compatibleWith: nil)
+		self.errorView?.isHidden = false
+		self.loadingImageView?.isHidden = true
 	}
 	
 	public func setToken( token: String! ) {
-		
+		self.setToken(token: token, errorText: nil)
+	}
+	public func setToken( token: String!, errorText: String? ) {
 		DispatchQueue.main.async {
 			guard ( self.originalToken == nil || self.originalToken != token ) else {
 				self.start()
 				return
 			}
 			
-			// Stop renderer
-			self.stop()
-			
 			// Parse token from supplied payload
 			self.originalToken = token
 			if token != nil {
 				let newEntryData = EntryData(tokenString: token)
 				
+				// Stop renderer
+				//self.stop()
+				
 				guard (newEntryData.getSegmentType() == .BARCODE || newEntryData.getSegmentType() == .ROTATING_SYMBOLOGY) else {
-					self.stop()
-					self.errorView?.isHidden = false
-					self.loadingImageView?.isHidden = true
-					self.errorLabel?.text = self.errorMessage //"Invalid token"
+					self.showError( text: errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
 					return
 				}
 				
@@ -233,9 +238,7 @@ internal struct SecureEntryConstants {
 				self.update()
 				self.start()
 			} else {
-				self.errorView?.isHidden = false
-				self.loadingImageView?.isHidden = true
-				self.errorLabel?.text = self.errorMessage //"No token error message contains a much longer message that should cause the label field to wrap"
+				self.showError( text: errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
 			}
 		}
 	}
@@ -271,8 +274,13 @@ internal struct SecureEntryConstants {
         self.setupView()
 
 		// Ensure animation resumes when returning from inactive
+		#if swift(>=4.2)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.resume), name: UIApplication.didBecomeActiveNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.resume), name: UIApplication.willEnterForegroundNotification, object: nil)
+		#elseif swift(>=4.0)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.resume), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.resume), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+		#endif
 
         // Kick off a single clock sync (this will be ignored if clock already synced)
         SecureEntryView.syncTime()
@@ -436,6 +444,7 @@ internal struct SecureEntryConstants {
 	@objc fileprivate func toggleMode(_ sender: AnyObject) {
 		// Invalidate any existing timer
 		self.toggleTimer?.invalidate()
+		self.toggleTimer = nil
 		
 		// Only rotating symbology may be toggled
 		if self.entryData?.getSegmentType() == .ROTATING_SYMBOLOGY {
@@ -474,11 +483,13 @@ internal struct SecureEntryConstants {
                     self.staticImageView?.alpha = 1
                 }, completion: { done in
 					if true == self.toggleStatic {
-						self.stopAnimation()
+						//self.stopAnimation()
 						self.update()
 						
 						self.toggleTimer?.invalidate()
-						self.toggleTimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.toggleModeOff), userInfo: nil, repeats: false)
+                        self.toggleTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false, block: { [weak self] (_) in
+                            self?.toggleModeOff()
+                        })
 					}
                 })
             } else {
@@ -560,7 +571,7 @@ internal struct SecureEntryConstants {
 						loadingImageView.layer.masksToBounds = true
 						loadingImageView.layer.backgroundColor = UIColor.white.cgColor
 						loadingImageView.layer.borderWidth = 0
-						loadingImageView.layer.cornerRadius = 6
+						loadingImageView.layer.cornerRadius = 4
 						
 						if let loadingData = NSDataAsset(name: "Loading", bundle: Bundle(for: SecureEntryView.self)) {
 							DispatchQueue.global().async {
@@ -589,7 +600,7 @@ internal struct SecureEntryConstants {
 						staticImageView.layer.masksToBounds = true
 						staticImageView.layer.backgroundColor = UIColor.white.cgColor
 						staticImageView.layer.borderWidth = 0
-						staticImageView.layer.cornerRadius = 6
+						staticImageView.layer.cornerRadius = 4
 						staticImageView.isHidden = true
 						outerView.addSubview(staticImageView)
 						
@@ -609,7 +620,7 @@ internal struct SecureEntryConstants {
 						retImageView.layer.masksToBounds = true
 						retImageView.layer.backgroundColor = UIColor.white.cgColor
 						retImageView.layer.borderWidth = 0
-						retImageView.layer.cornerRadius = 6
+						retImageView.layer.cornerRadius = 4
 						retImageView.isHidden = true
 						outerView.addSubview(retImageView)
 						
@@ -625,18 +636,18 @@ internal struct SecureEntryConstants {
 				
 				if toggleButton != nil {} else {
 					toggleButton = UIButton(frame: buttonRect)
-					if let toggleButton = toggleButton {
+					if let toggleButton = toggleButton, let retView = retImageView {
 						toggleButton.layer.masksToBounds = true
 						toggleButton.setImage(UIImage(named: "Overflow", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
 						toggleButton.addTarget(self, action: #selector(self.toggleMode), for: .touchUpInside)
 						toggleButton.isHidden = true
 						self.addSubview(toggleButton)
 						
-						toggleButton.translatesAutoresizingMaskIntoConstraints = false
-						toggleButton.widthAnchor.constraint(equalToConstant: buttonRect.width).isActive = true
-						toggleButton.heightAnchor.constraint(equalToConstant: buttonRect.height).isActive = true
-						toggleButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
-						toggleButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
+                        toggleButton.translatesAutoresizingMaskIntoConstraints = false
+                        toggleButton.widthAnchor.constraint(equalToConstant: SecureEntryConstants.Keys.ToggleButtonWidthHeight).isActive = true
+                        toggleButton.heightAnchor.constraint(equalToConstant: SecureEntryConstants.Keys.ToggleButtonWidthHeight).isActive = true
+                        toggleButton.trailingAnchor.constraint(equalTo: retView.trailingAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
+                        toggleButton.bottomAnchor.constraint(equalTo: outerView.bottomAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
 					}
 				}
 				
@@ -646,7 +657,7 @@ internal struct SecureEntryConstants {
 						errorView.layer.masksToBounds = false
 						errorView.layer.backgroundColor = UIColor.white.cgColor
 						errorView.layer.borderWidth = 0
-						errorView.layer.cornerRadius = 6
+						errorView.layer.cornerRadius = 4
 						errorView.isHidden = true
 						outerView.addSubview(errorView)
 						
@@ -775,29 +786,32 @@ internal struct SecureEntryConstants {
 				scanAnimBox.isHidden = false
 				scanAnimLine.isHidden = false
 			}
-            scanAnimBox.layer.removeAllAnimations()
-            scanAnimLine.layer.removeAllAnimations()
-            
-            scanAnimBox.center.x = scanAnimBox.frame.size.width / 2
-            scanAnimLine.center.x = scanAnimBox.frame.size.width / 2
-            UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay + SecureEntryConstants.Keys.ScanBoxAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-                scanAnimBox.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
-            }, completion: nil)
-            UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-                scanAnimLine.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
-            }, completion: nil)
-            
-            /*UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0.05, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
-            UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
-            UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimBox.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
-            })
-            
-            UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
-            UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
-            UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimLine.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
-            })*/
+			
+			if scanAnimBox.layer.animationKeys() == nil || scanAnimLine.layer.animationKeys() == nil {
+				scanAnimBox.layer.removeAllAnimations()
+				scanAnimLine.layer.removeAllAnimations()
+				
+				scanAnimBox.center.x = scanAnimBox.frame.size.width / 2
+				scanAnimLine.center.x = scanAnimBox.frame.size.width / 2
+				UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay + SecureEntryConstants.Keys.ScanBoxAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+					scanAnimBox.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
+				}, completion: nil)
+				UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+					scanAnimLine.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
+				}, completion: nil)
+				
+				/*UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0.05, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
+				UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
+				UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
+				UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimBox.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
+				})
+				
+				UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
+				UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
+				UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
+				UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimLine.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
+				})*/
+			}
 		}
 	}
 	
@@ -829,15 +843,30 @@ internal struct SecureEntryConstants {
 			guard let totp = TOTP.shared else {
 				return
 			}
-			guard let now = totp.generate(secret: self.entryData?.getCustomerKey() ?? Data()) else {
-				return
-			}
+			
 			
 			retImageView?.isHidden = false
 			loadingImageView?.isHidden = true
 			toggleButton?.isHidden = false
-			fullMessage = ((self.entryData?.getToken() ?? "").replacingOccurrences(of: "🛂", with: "TM")) + "::" + now
+			
+			// Get simple barcoee message
 			staticMessage = self.entryData?.getBarcode()
+			
+			// Customer key is always required, so fetch it
+			guard let customerNow = totp.generate(secret: self.entryData?.getCustomerKey() ?? Data()) else {
+				return
+			}
+			
+			// Event key may not be provided, so only generate if available
+			if let eventKey = self.entryData?.getEventKey() {
+				guard let eventNow = totp.generate(secret: eventKey) else {
+					return
+				}
+				
+				fullMessage = (self.entryData?.getToken() ?? "") + "::" + eventNow + "::" + customerNow
+			} else {
+				fullMessage = (self.entryData?.getToken() ?? "") + "::" + customerNow
+			}
 		} else if ( self.toggleStatic == true ) || ( entryData.getSegmentType() == .BARCODE ) {
 			staticImageView?.isHidden = false
 			loadingImageView?.isHidden = true
@@ -851,18 +880,20 @@ internal struct SecureEntryConstants {
 	}
 	
 	@objc fileprivate func start() {
-        self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        self.timer?.tolerance = 0.25
+		self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] (_) in
+            self?.update()
+        })
+		self.timer?.tolerance = 0.25
 		DispatchQueue.main.async {
 			self.startAnimation()
 		}
 	}
 	
 	@objc fileprivate func resume() {
-		if self.timer != nil {
-			self.start()
-		}
+		self.timer?.invalidate()
+		self.timer = nil
+		self.start()
 	}
 	
 	@objc fileprivate func stop() {

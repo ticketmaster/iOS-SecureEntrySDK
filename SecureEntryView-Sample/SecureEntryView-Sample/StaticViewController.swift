@@ -18,6 +18,7 @@ class StaticViewController: UIViewController {
     @IBOutlet weak var staticViewFull: Presence.SecureEntryView?
     @IBOutlet weak var staticViewNoToken: Presence.SecureEntryView?
     @IBOutlet weak var staticViewInvalid: Presence.SecureEntryView?
+	@IBOutlet weak var staticCustomError: Presence.SecureEntryView?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,18 +27,19 @@ class StaticViewController: UIViewController {
         staticView?.setToken(token:"eyJiIjogIjE5NzM3OTA2OTQzNDc3OTlhIiwidCI6ICIiLCJjayI6ICIiLCAiZWsiOiAiIn0=")
 		
 		// Scaled view
-        staticViewSized?.setToken(token:"eyJiIjogIjE5NzM3OTA2OTQzNDc3OTlhIiwidCI6ICIiLCJjayI6ICIiLCAiZWsiOiAiIn0=")
+        staticViewSized?.setToken(token:"eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ==")
 		
-		// Large view, rendered edge-to-edge
-        staticViewFull?.setToken(token:"eyJiIjogIjE5NzM3OTA2OTQzNDc3OTlhIiwidCI6ICIiLCJjayI6ICIiLCAiZWsiOiAiIn0=")
+		// Large view, rendered edge-to-edge (using v4 RET token format, with no RET keys - which should fall back to Static)
+        staticViewFull?.setToken(token:"eyJiIjoiODMwNTM2NjY1MTU4ayIsInJ0Ijoicm90YXRpbmdfc3ltYm9sb2d5In0=")
 		
-		// A small invalid (no token) error state, with no error message
-        staticViewNoToken?.setToken(token:nil)
-		staticViewNoToken?.setErrorText(text:nil)
+		// A small invalid (no token) error state, with default error message
+		staticViewNoToken?.setToken(token:nil, errorText:nil)
 		
-		// A larger invalid (bad token) error state, with a longer error message
-        staticViewInvalid?.setToken(token:"ABC123")
-		staticViewInvalid?.setErrorText(text:"Custom user guidance can be entered here, 60 char max length")
+		// A large invalid (bad token) error state, with a longer error message
+		staticViewInvalid?.setToken(token:"ABC123", errorText:"Custom user guidance can be entered here, 60 char max length")
+		
+		// A larger edge-to-edge custom error state, displaying an arbitrary error message within the view
+		staticCustomError?.showError(text:"Custom error state, still bound by the same 60 character limit", icon:UIImage(named: "Static"))
     }
 }
 

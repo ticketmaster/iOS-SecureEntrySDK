@@ -157,6 +157,28 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57j-zE-71x">
+                                        <rect key="frame" x="16" y="1585" width="382" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="eY5-Wz-27B"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z6e-9R-cnK" customClass="SecureEntryView" customModule="Presence">
+                                        <rect key="frame" x="16" y="1626" width="382" height="283"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="z6e-9R-cnK" secondAttribute="height" multiplier="216:160" id="wgl-hZ-rRf"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="safeArea" id="lOK-2p-TgO"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="brandingColor">
+                                                <color key="value" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -177,17 +199,24 @@
                                     <constraint firstItem="T1E-YT-nbg" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="MBl-8M-OhT"/>
                                     <constraint firstItem="Xbd-gp-2cu" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="Ovq-lJ-xMa"/>
                                     <constraint firstItem="iTB-tB-ICL" firstAttribute="top" secondItem="RLL-x7-Sor" secondAttribute="top" constant="16" id="PQq-kh-dzd"/>
+                                    <constraint firstItem="z6e-9R-cnK" firstAttribute="top" secondItem="57j-zE-71x" secondAttribute="bottom" constant="20" id="PyR-rv-2dr"/>
                                     <constraint firstItem="AVu-Py-8hh" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="QYB-ZO-j6q"/>
+                                    <constraint firstItem="z6e-9R-cnK" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="Qbr-Gw-EcM"/>
+                                    <constraint firstItem="57j-zE-71x" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="Qqf-qa-eP0"/>
                                     <constraint firstItem="uHf-dC-G8T" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="RZ3-lR-btV"/>
                                     <constraint firstItem="jca-ff-Nss" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="RbD-3V-6CW"/>
                                     <constraint firstItem="A3W-oP-CRq" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="S6T-L6-uLZ"/>
                                     <constraint firstItem="AVu-Py-8hh" firstAttribute="top" secondItem="EzA-c8-qIo" secondAttribute="bottom" constant="32" id="Umh-u2-qDM"/>
                                     <constraint firstItem="AVu-Py-8hh" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="WfP-Ak-FYB"/>
+                                    <constraint firstAttribute="trailing" secondItem="z6e-9R-cnK" secondAttribute="trailing" constant="16" id="WnG-GD-71s"/>
                                     <constraint firstItem="uHf-dC-G8T" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="ZKr-lA-tBH"/>
                                     <constraint firstItem="C0R-nI-6CA" firstAttribute="top" secondItem="jca-ff-Nss" secondAttribute="bottom" constant="48" id="ZlQ-9d-TbW"/>
+                                    <constraint firstAttribute="bottom" secondItem="z6e-9R-cnK" secondAttribute="bottom" constant="48" id="dIR-ex-Sfl"/>
+                                    <constraint firstItem="57j-zE-71x" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="dod-Ai-AVa"/>
+                                    <constraint firstItem="57j-zE-71x" firstAttribute="top" secondItem="tBQ-le-XGv" secondAttribute="bottom" constant="48" id="fAw-D8-yK2"/>
+                                    <constraint firstItem="z6e-9R-cnK" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="gil-Ov-hOY"/>
                                     <constraint firstItem="C0R-nI-6CA" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="h53-wf-iJT"/>
                                     <constraint firstItem="0N8-dH-HZK" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="hMf-9q-GdI"/>
-                                    <constraint firstAttribute="bottom" secondItem="tBQ-le-XGv" secondAttribute="bottom" priority="10" constant="48" id="hbR-AN-c57"/>
                                     <constraint firstItem="EzA-c8-qIo" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="lfQ-Go-32h"/>
                                     <constraint firstItem="C0R-nI-6CA" firstAttribute="leading" secondItem="RLL-x7-Sor" secondAttribute="leading" constant="16" id="qmI-Q3-Jz9"/>
                                     <constraint firstItem="A3W-oP-CRq" firstAttribute="centerX" secondItem="RLL-x7-Sor" secondAttribute="centerX" id="tAK-NF-zJp"/>
@@ -208,6 +237,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Static" image="Static" landscapeImage="Static" largeContentSizeImage="Static" id="F02-Wz-xte"/>
                     <connections>
+                        <outlet property="staticCustomError" destination="z6e-9R-cnK" id="xPg-TT-PeV"/>
                         <outlet property="staticView" destination="T1E-YT-nbg" id="YRz-DS-qzq"/>
                         <outlet property="staticViewFull" destination="Xbd-gp-2cu" id="1bo-zg-Hvr"/>
                         <outlet property="staticViewInvalid" destination="tBQ-le-XGv" id="h8b-vR-qx3"/>

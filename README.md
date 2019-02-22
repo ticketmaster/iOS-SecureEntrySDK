@@ -100,11 +100,13 @@ This method is used to apply a ticket's 'secure token' to the view. This will tr
 
 ```swift
 // set the token on the view 
-secureEntryView.setToken(token: theNewToken)
+secureEntryView.setToken(token: String)
+secureEntryView.setToken(token: String, errorText: String)
 ```
 
 ##### Parameters
 - **token** _(String)_: The token object obtained when fetching the user's tickets.
+- **errorText** _(String)_: An optional error message to display when an error occurs processing the provided token.
 
 ---
 
@@ -115,7 +117,7 @@ secureEntryView.setToken(token: theNewToken)
 Sets the branding color to the specified color value. This color is typically associated with a particular brand or team. Currently the branding color affects only the animation.
 
 ```swift
-secureEntryView.setBrandingColor(color: theBrandingColor)
+secureEntryView.setBrandingColor(color: UIColor)
 ```
 
 ##### Parameters
@@ -123,18 +125,20 @@ secureEntryView.setBrandingColor(color: theBrandingColor)
 
 ---
 
-### Change the branding color
+### Custom error handling
 
-#### `setErrorText`
+#### `showError`
 
-Sets a custom text string to display when an error occurs with the provided secure token.
+Shows a custom error string to display within the view (this may be any arbitrary error provided by the client app).
 
 ```swift
-secureEntryView.setErrorText(text: theErrorText)
+secureEntryView.showError(text: String)
+secureEntryView.showError(text: String, icon: UIImage)
 ```
 
 ##### Parameters
 - **text** _(String)_: The text to display when an error occurs.
+- **icon** _(String)_: An optional icon to display along with the error. If none provided a default icon will be used.
 
 
 ## Acknowledgements

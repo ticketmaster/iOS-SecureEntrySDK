@@ -27,6 +27,7 @@ struct EntryData: Decodable {
 		case token = "t"
 		case customerKey = "ck"
 		case eventKey = "ek"
+		case renderType = "rt"
 	}
 	
 	enum SegmentType {
@@ -88,6 +89,27 @@ struct EntryData: Decodable {
 		} catch {
 			// Not a RET token
 		}
+		
+		// If segment type is explicitly specified, use it
+		do {
+			if let renderType = try values.decodeIfPresent(String.self, forKey: CodingKeys.renderType) {
+				switch renderType {
+				case "rotating_symbology":
+					// Only force RET if an actual token+key is provided
+					if let token = token, token.lengthOfBytes(using: String.Encoding.ascii) > 0, let customerKey = customerKey, customerKey.lengthOfBytes(using: String.Encoding.ascii) > 0 {
+						segmentType = .ROTATING_SYMBOLOGY;
+					}
+					break
+				case "barcode":
+					// Force rendering of static barcode
+					segmentType = .BARCODE;
+					break
+				default: break
+				}
+			}
+		} catch {
+			// No segment type provided
+		}
 	}
 	init(tokenString: String) {
 		let decodedData = Data(base64Encoded: tokenString) ?? Data()
@@ -104,7 +126,7 @@ struct EntryData: Decodable {
 			self.segmentType = newEntryData.segmentType ?? .INVALID
 		} catch let error {
 			// Test for valid barcode value, and create static barcode
-			if tokenString.range(of: "^[0-9]{12,16}(?:[A-Za-z])?$", options: .regularExpression, range: nil, locale: nil) != nil {
+			if tokenString.range(of: "^[0-9]{12,18}(?:[A-Za-z])?$", options: .regularExpression, range: nil, locale: nil) != nil {
 				self.barcode = tokenString
 				self.segmentType = .BARCODE
 				return
@@ -123,12 +145,18 @@ struct EntryData: Decodable {
 		return token ?? ""
 	}
 	
-	func getCustomerKey() -> Data {
-		return encodeOTPSecretBytes(customerKey ?? "") ?? Data()
+	func getCustomerKey() -> Data? {
+		if (customerKey ?? "").lengthOfBytes(using: String.Encoding.ascii) > 0 {
+			return encodeOTPSecretBytes(customerKey ?? "") ?? Data()
+		}
+		return nil
 	}
 	
-	func getEventKey() -> String {
-		return eventKey ?? ""
+	func getEventKey() -> Data? {
+		if (eventKey ?? "").lengthOfBytes(using: String.Encoding.ascii) > 0 {
+			return encodeOTPSecretBytes(eventKey ?? "") ?? Data()
+		}
+		return nil
 	}
 	
 	func getSegmentType() -> SegmentType {
