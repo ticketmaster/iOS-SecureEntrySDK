@@ -84,7 +84,6 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="brandingColor">
                                                 <color key="value" red="0.2149753804" green="0.65686921769999995" blue="0.32246307060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="staticOnly" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="livePreview" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="staticPreview" value="YES"/>
                                         </userDefinedRuntimeAttributes>
@@ -108,12 +107,11 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="brandingColor">
                                                 <color key="value" red="0.2149753804" green="0.65686921769999995" blue="0.32246307060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="staticOnly" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="staticPreview" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="livePreview" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Static - No token (Minimum size)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHf-dC-G8T">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Static PDF417 - Missing token/key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHf-dC-G8T">
                                         <rect key="frame" x="16" y="1017.5" width="382" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="1ek-sE-O1Q"/>
@@ -300,7 +298,6 @@
                                                 <color key="value" red="1" green="0.49803921569999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="livePreview" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="staticOnly" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating (Scaled)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xak-AF-Dps">

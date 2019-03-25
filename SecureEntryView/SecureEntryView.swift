@@ -42,14 +42,14 @@ internal struct SecureEntryConstants {
 	struct Keys {
 		static let MinOuterWidth = CGFloat(216.0)
 		static let MinOuterHeight = CGFloat(160.0)
-		static let MinRetWidth = CGFloat(200.0)
-		static let MinRetHeight = CGFloat(50.0)
-		static let MinStaticWidthHeight = CGFloat(120.0)
+		static let MinPDFWidth = CGFloat(200.0)
+		static let MinPDFHeight = CGFloat(50.0)
+		static let MinQRWidthHeight = CGFloat(120.0)
 		static let MinErrorWidth = CGFloat(200.0)
 		static let MinErrorHeight = CGFloat(120.0)
 		
-		static let RetBorderWidth = CGFloat(8.0)
-		static let StaticBorderWidth = CGFloat(10.0) // QR is rendered with a transparent border already so effective border will be greater than this value
+		static let PDFBorderWidth = CGFloat(8.0)
+		static let QRBorderWidth = CGFloat(10.0) // QR is rendered with a transparent border already so effective border will be greater than this value
 		
 		static let ScanBoxWidth = CGFloat(12.0)
 		static let ScanLineWidth = CGFloat(4.0)
@@ -68,9 +68,9 @@ internal struct SecureEntryConstants {
 }
 
 @IBDesignable public final class SecureEntryView: UIView {
-	static fileprivate let clockGroup = DispatchGroup()
-	static fileprivate var clockDate: Date?
-	static fileprivate var clockOffset: TimeInterval?
+	static internal let clockGroup = DispatchGroup()
+	static internal var clockDate: Date?
+	static internal var clockOffset: TimeInterval?
 	
 	static public func syncTime( completed: ((_ synced: Bool) -> Void)? = nil ) {
 		// Kick off a single clock sync
@@ -97,27 +97,27 @@ internal struct SecureEntryConstants {
 		#endif //!TARGET_INTERFACE_BUILDER
 	}
 	
-	fileprivate var originalToken: String?
-	fileprivate var livePreviewInternal: Bool = false
-	fileprivate var staticOnlyInternal: Bool = false
-	fileprivate var brandingColorInternal: UIColor?
-	fileprivate let timeInterval: TimeInterval = 15
-	fileprivate var outerView: UIImageView?
-	fileprivate var loadingImageView: UIImageView? //= WKWebView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-	fileprivate var retImageView: UIImageView?
-	fileprivate var staticImageView: UIImageView?
-	fileprivate var toggleButton: UIButton?
-	fileprivate var toggleStatic: Bool = false
-	fileprivate var errorView: UIView?
-	fileprivate var errorIcon: UIImageView?
-	fileprivate var errorLabel: UILabel?
-	fileprivate var scanAnimBox: UIView?
-	fileprivate var scanAnimLine: UIView?
-	fileprivate var timer: Timer? = nil
-	fileprivate var toggleTimer: Timer? = nil
-	fileprivate var type: BarcodeType = .pdf417
+	internal var originalToken: String?
+	internal var livePreviewInternal: Bool = false
+	internal var staticOnlyInternal: Bool = false
+	internal var brandingColorInternal: UIColor?
+	internal let timeInterval: TimeInterval = 15
+	internal var outerView: UIImageView?
+	internal var loadingImageView: UIImageView? //= WKWebView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+	internal var pdfImageView: UIImageView?
+	internal var qrImageView: UIImageView?
+	internal var toggleButton: UIButton?
+	internal var forceQR: Bool = false
+    internal var errorText: String?
+	internal var errorView: UIView?
+	internal var errorIcon: UIImageView?
+	internal var errorLabel: UILabel?
+	internal var scanAnimBox: UIView?
+	internal var scanAnimLine: UIView?
+	internal var timer: Timer? = nil
+	internal var toggleTimer: Timer? = nil
 	
-	@IBInspectable fileprivate var livePreview: Bool {
+	@IBInspectable internal var livePreview: Bool {
 		get {
 			return self.livePreviewInternal
 		}
@@ -128,7 +128,7 @@ internal struct SecureEntryConstants {
 			self.start()
 		}
 	}
-	@IBInspectable fileprivate var staticPreview: Bool {
+	@IBInspectable internal var staticPreview: Bool {
 		get {
 			return self.staticOnlyInternal
 		}
@@ -139,7 +139,7 @@ internal struct SecureEntryConstants {
 			self.start()
 		}
 	}
-	@IBInspectable fileprivate var brandingColor: UIColor? {
+	@IBInspectable internal var brandingColor: UIColor? {
 		get {
 			return self.brandingColorInternal
 		}
@@ -150,26 +150,6 @@ internal struct SecureEntryConstants {
 			}
 			if let scanAnimLine = scanAnimLine {
 				scanAnimLine.backgroundColor = (brandingColorInternal ?? UIColor.blue)
-			}
-		}
-	}
-	
-	enum BarcodeType {
-		
-		case qr, aztec, pdf417
-		
-		var filter: CIFilter? {
-			switch self {
-			case .qr:
-				let filter = CIFilter(name: "CIQRCodeGenerator")
-				filter?.setValue("Q", forKey: "inputCorrectionLevel")
-				return filter
-				
-			case .aztec:
-				return CIFilter(name: "CIAztecCodeGenerator")
-				
-			case .pdf417:
-				return CIFilter(name: "CIPDF417BarcodeGenerator")
 			}
 		}
 	}
@@ -199,20 +179,23 @@ internal struct SecureEntryConstants {
         #endif //!TARGET_INTERFACE_BUILDER
     }
 	
-    public func showError( text: String? ) {
-        showError( text:text, icon:nil )
-    }
-	public func showError( text: String?, icon: UIImage? ) {
-		self.errorLabel?.text = (text ?? "").truncate(length: 60, trailing: "...")
-		self.errorIcon?.image = icon ?? UIImage(named: "Alert", in: Bundle(for: SecureEntryView.self), compatibleWith: nil)
-		self.errorView?.isHidden = false
-		self.loadingImageView?.isHidden = true
+	public func showError( text: String?, icon: UIImage? = nil ) {
+        DispatchQueue.main.async {
+            self.errorLabel?.text = (text ?? "").truncate(length: 60, trailing: "...")
+            self.errorIcon?.image = icon ?? UIImage(named: "Alert", in: Bundle(for: SecureEntryView.self), compatibleWith: nil)
+            self.errorView?.isHidden = false
+            self.loadingImageView?.isHidden = true
+            self.qrImageView?.isHidden = true
+            self.pdfImageView?.isHidden = true
+            self.toggleButton?.isHidden = true
+            self.scanAnimLine?.isHidden = true
+            self.scanAnimBox?.isHidden = true
+        }
 	}
 	
-	public func setToken( token: String! ) {
-		self.setToken(token: token, errorText: nil)
-	}
-	public func setToken( token: String!, errorText: String? ) {
+	public func setToken( token: String!, errorText: String? = nil ) {
+        self.errorText = errorText
+        
 		DispatchQueue.main.async {
 			guard ( self.originalToken == nil || self.originalToken != token ) else {
 				self.start()
@@ -226,9 +209,12 @@ internal struct SecureEntryConstants {
 				
 				// Stop renderer
 				//self.stop()
-				
-				guard (newEntryData.getSegmentType() == .BARCODE || newEntryData.getSegmentType() == .ROTATING_SYMBOLOGY) else {
-					self.showError( text: errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
+                
+                // Hide existing errors
+                self.errorView?.isHidden = true
+
+				guard !(newEntryData.getRenderType() == .INVALID) else {
+					self.showError( text: self.errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
 					return
 				}
 				
@@ -238,7 +224,7 @@ internal struct SecureEntryConstants {
 				self.update()
 				self.start()
 			} else {
-				self.showError( text: errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
+				self.showError( text: self.errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
 			}
 		}
 	}
@@ -290,19 +276,19 @@ internal struct SecureEntryConstants {
 		stop()
 	}
 	
-	fileprivate(set) var flipped = false {
+	internal(set) var flipped = false {
 		didSet {
-			retImageView?.transform = CGAffineTransform(scaleX: 1.0, y: flipped ? -1.0 : 1.0);
+			pdfImageView?.transform = CGAffineTransform(scaleX: 1.0, y: flipped ? -1.0 : 1.0);
 		}
 	}
 	
-	fileprivate(set) var entryData: EntryData? {
+	internal(set) var entryData: EntryData? {
 		didSet {
 			#if TARGET_INTERFACE_BUILDER
 			guard livePreview == true else { return }
 			#endif // TARGET_INTERFACE_BUILDER
 			
-			guard let entryData = entryData, (entryData.getSegmentType() == .BARCODE || entryData.getSegmentType() == .ROTATING_SYMBOLOGY) else {
+			guard let entryData = entryData, !(entryData.getRenderType() == .INVALID) else {
 				stop()
 				return
 			}
@@ -311,133 +297,142 @@ internal struct SecureEntryConstants {
 		}
 	}
 	
-	var staticMessage: String? {
+	var qrValue: String? {
 		didSet {
-			if staticImageView == nil || errorView == nil {
+			if qrImageView == nil || errorView == nil {
 				setupView()
 			}
-			guard ( oldValue == nil || oldValue != staticMessage ) else {
+			guard ( oldValue == nil || oldValue != qrValue ) else {
 				return
 			}
 			
-			if let staticImageView = self.staticImageView {
-				// Generate & scale the Static barcode (QR)
-				if let staticFilter = CIFilter(name: "CIQRCodeGenerator") {
-					staticFilter.setValue("Q", forKey: "inputCorrectionLevel")
-					staticFilter.setValue(staticMessage?.dataUsingUTF8StringEncoding, forKey: "inputMessage")
-					if let scaled = staticFilter.outputImage?.transformed(by: CGAffineTransform(scaleX: 12.0, y: 12.0)) {
-						let image = UIImage(ciImage: scaled, scale: 4.0, orientation: .up)
-						
-						// Add inset padding
-						let scaleFactor = ( SecureEntryConstants.Keys.MinStaticWidthHeight + ( SecureEntryConstants.Keys.StaticBorderWidth * 2 ) ) / staticImageView.frame.width
-						let insetValue = SecureEntryConstants.Keys.StaticBorderWidth * scaleFactor
-						let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
-						UIGraphicsBeginImageContextWithOptions( CGSize(width: image.size.width + insets.left + insets.right, height: image.size.height + insets.top + insets.bottom), false, image.scale)
-						let _ = UIGraphicsGetCurrentContext()
-						let origin = CGPoint(x: insets.left, y: insets.top)
-						image.draw(at: origin)
-						let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
-						UIGraphicsEndImageContext()
-						
-						// Apply the image
-						staticImageView.image = imageWithInsets
-						
-					} else {
-						staticImageView.image = nil
-						return
-					}
-				}
+			if let qrImageView = self.qrImageView {
+                // Generate & scale the Static barcode (QR)
+                qrImageView.image = nil
+                if let staticFilter = CIFilter(name: "CIQRCodeGenerator") {
+                    staticFilter.setValue("Q", forKey: "inputCorrectionLevel")
+                    staticFilter.setValue(qrValue?.dataUsingUTF8StringEncoding, forKey: "inputMessage")
+                    
+                    if let scaled = staticFilter.outputImage {
+                        var imageWithInsets: UIImage? = nil
+                        
+                        // Add inset padding
+                        let image = UIImage(ciImage: scaled, scale: 1, orientation: .up)
+                        let scaleFactor = ( SecureEntryConstants.Keys.MinQRWidthHeight + ( SecureEntryConstants.Keys.QRBorderWidth * 2 ) ) / qrImageView.frame.width
+                        let insetValue = SecureEntryConstants.Keys.QRBorderWidth * scaleFactor
+                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        UIGraphicsBeginImageContextWithOptions( CGSize(width: qrImageView.bounds.size.width + insets.left + insets.right, height: qrImageView.bounds.size.height + insets.top + insets.bottom), false, 1)
+                        if let scaledContext = UIGraphicsGetCurrentContext() {
+                            scaledContext.interpolationQuality = .none
+                        }
+                        image.draw(in: CGRect(x: insetValue, y: insetValue, width: qrImageView.bounds.size.width, height: qrImageView.bounds.size.height))
+                        imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+                        
+                        // Apply the image
+                        qrImageView.layer.magnificationFilter = kCAFilterNearest
+                        qrImageView.image = imageWithInsets
+                    }
+                }
 			}
 		}
 	}
 	
-	var fullMessage: String? {
+	var pdfValue: String? {
 		didSet {
-			if retImageView == nil || staticImageView == nil || errorView == nil {
+			if pdfImageView == nil || qrImageView == nil || errorView == nil {
 				setupView()
 			}
-			guard ( oldValue == nil || oldValue != fullMessage ) else {
+			guard ( oldValue == nil || oldValue != pdfValue ) else {
 				return
 			}
 			
 			//DispatchQueue.main.async {
 			#if !TARGET_INTERFACE_BUILDER
-			guard let fullMessage = self.fullMessage, let segmentType = self.entryData?.getSegmentType() else {
-				self.retImageView?.image = nil
-				self.staticImageView?.image = nil
+			guard let pdfValue = self.pdfValue, let renderType = self.entryData?.getRenderType() else {
+				self.pdfImageView?.image = nil
+				self.qrImageView?.image = nil
 				self.scanAnimBox?.isHidden = true
 				self.scanAnimLine?.isHidden = true
 				return
 			}
 			#else
 			// Allow interface builder to display dummy sample
-			let segmentType = self.staticOnlyInternal ? EntryData.SegmentType.BARCODE : EntryData.SegmentType.ROTATING_SYMBOLOGY
-			guard let fullMessage = self.fullMessage else { return }
+			let renderType = self.staticOnlyInternal ? EntryData.RenderType.STATIC_QR : EntryData.RenderType.ROTATING
+			guard let pdfValue = self.pdfValue else { return }
 			#endif //TARGET_INTERFACE_BUILDER
 			
-			if segmentType == .ROTATING_SYMBOLOGY, let retImageView = self.retImageView {
+			if ( renderType == .ROTATING || renderType == .STATIC_PDF ), let pdfImageView = self.pdfImageView {
+                pdfImageView.image = nil
+                
 				// Generate & scale the RET barcode (PDF417)
 				if let retFilter = CIFilter(name: "CIPDF417BarcodeGenerator") {
-					retFilter.setValue(fullMessage.dataUsingUTF8StringEncoding, forKey: "inputMessage")
-					if let scaled = retFilter.outputImage?.transformed(by: CGAffineTransform(scaleX: 5.0, y: 5.0)) {
-						let image = UIImage(ciImage: scaled, scale: 2.0, orientation: .up)
-						
-						// Add inset padding
-						let scaleFactor = ( SecureEntryConstants.Keys.MinRetWidth + ( SecureEntryConstants.Keys.RetBorderWidth * 2 ) ) / retImageView.frame.width
-						let insetValue = SecureEntryConstants.Keys.RetBorderWidth * scaleFactor
-						let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
-						UIGraphicsBeginImageContextWithOptions( CGSize(width: image.size.width + insets.left + insets.right, height: image.size.height + insets.top + insets.bottom), false, image.scale)
-						let _ = UIGraphicsGetCurrentContext()
-						let origin = CGPoint(x: insets.left, y: insets.top)
-						image.draw(at: origin)
-						let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
-						UIGraphicsEndImageContext()
-						
-						// Apply the image
-						retImageView.image = imageWithInsets
-						self.scanAnimBox?.isHidden = false
-						self.scanAnimLine?.isHidden = false
-						
-						self.flipped = !self.flipped
-					} else {
-						retImageView.image = nil
-						self.scanAnimBox?.isHidden = true
-						self.scanAnimLine?.isHidden = true
-						return
-					}
+					retFilter.setValue(pdfValue.dataUsingUTF8StringEncoding, forKey: "inputMessage")
+                    retFilter.setValue(SecureEntryConstants.Keys.MinPDFWidth / SecureEntryConstants.Keys.MinPDFHeight, forKey: "inputPreferredAspectRatio")
+                    
+                    // Add inset padding
+                    if let output = retFilter.outputImage {
+                        let image = UIImage(ciImage: output, scale: 1, orientation: .up)
+                        let scaleFactor = ( SecureEntryConstants.Keys.MinPDFWidth + ( SecureEntryConstants.Keys.PDFBorderWidth * 2 ) ) / pdfImageView.frame.width
+                        let insetValue = SecureEntryConstants.Keys.PDFBorderWidth * scaleFactor
+                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        UIGraphicsBeginImageContextWithOptions( CGSize(width: image.size.width + insets.left + insets.right, height: image.size.height + insets.top + insets.bottom), false, 1)
+                        if let scaledContext = UIGraphicsGetCurrentContext() {
+                            scaledContext.interpolationQuality = .none
+                        }
+                        let origin = CGPoint(x: insets.left, y: insets.top)
+                        image.draw(at: origin)
+                        let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+                        
+                        // Apply the image
+                        pdfImageView.layer.magnificationFilter = kCAFilterNearest
+                        pdfImageView.image = imageWithInsets
+                    }
+                    
+                    self.flipped = !self.flipped
 				}
+                
+                if pdfImageView.image == nil {
+                    self.scanAnimBox?.isHidden = true
+                    self.scanAnimLine?.isHidden = true
+                    self.showError( text: self.errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
+                } else {
+                    self.scanAnimBox?.isHidden = false
+                    self.scanAnimLine?.isHidden = false
+                }
 			}
 			
 			// Always generate QR code (to allow RET<>QR switching)
-			if /*segmentType == .BARCODE,*/ let staticImageView = self.staticImageView {
-				// Generate & scale the Static barcode (QR)
-				if let staticFilter = CIFilter(name: "CIQRCodeGenerator") {
-					staticFilter.setValue("Q", forKey: "inputCorrectionLevel")
-					staticFilter.setValue(staticMessage?.dataUsingUTF8StringEncoding, forKey: "inputMessage")
-					if let scaled = staticFilter.outputImage?.transformed(by: CGAffineTransform(scaleX: 12.0, y: 12.0)) {
-						let image = UIImage(ciImage: scaled, scale: 4.0, orientation: .up)
-						
-						// Add inset padding
-						let scaleFactor = ( SecureEntryConstants.Keys.MinStaticWidthHeight + ( SecureEntryConstants.Keys.StaticBorderWidth * 2 ) ) / staticImageView.frame.width
-						let insetValue = SecureEntryConstants.Keys.StaticBorderWidth * scaleFactor
-						let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
-						UIGraphicsBeginImageContextWithOptions( CGSize(width: image.size.width + insets.left + insets.right, height: image.size.height + insets.top + insets.bottom), false, image.scale)
-						let _ = UIGraphicsGetCurrentContext()
-						let origin = CGPoint(x: insets.left, y: insets.top)
-						image.draw(at: origin)
-						let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
-						UIGraphicsEndImageContext()
-						
-						// Apply the image
-						staticImageView.image = imageWithInsets
-						
-					} else {
-						staticImageView.image = nil
-						return
-					}
-				}
+			if /*renderType == .BARCODE,*/ let qrImageView = self.qrImageView {
+                // Generate & scale the Static barcode (QR)
+                qrImageView.image = nil
+                if let staticFilter = CIFilter(name: "CIQRCodeGenerator") {
+                    staticFilter.setValue("Q", forKey: "inputCorrectionLevel")
+                    staticFilter.setValue(qrValue?.dataUsingUTF8StringEncoding, forKey: "inputMessage")
+                    
+                    if let scaled = staticFilter.outputImage {
+                        var imageWithInsets: UIImage? = nil
+                    
+                        // Add inset padding
+                        let image = UIImage(ciImage: scaled, scale: 1, orientation: .up)
+                        let scaleFactor = ( SecureEntryConstants.Keys.MinQRWidthHeight + ( SecureEntryConstants.Keys.QRBorderWidth * 2 ) ) / qrImageView.frame.width
+                        let insetValue = SecureEntryConstants.Keys.QRBorderWidth * scaleFactor
+                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        UIGraphicsBeginImageContextWithOptions( CGSize(width: qrImageView.bounds.size.width + insets.left + insets.right, height: qrImageView.bounds.size.height + insets.top + insets.bottom), false, 1)
+                        if let scaledContext = UIGraphicsGetCurrentContext() {
+                            scaledContext.interpolationQuality = .none
+                        }
+                        image.draw(in: CGRect(x: insetValue, y: insetValue, width: qrImageView.bounds.size.width, height: qrImageView.bounds.size.height))
+                        imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+                        
+                        // Apply the image
+                        qrImageView.layer.magnificationFilter = kCAFilterNearest
+                        qrImageView.image = imageWithInsets
+                    }
+                }
 			}
-			//}
 		}
 	}
 	
@@ -447,42 +442,42 @@ internal struct SecureEntryConstants {
 		self.toggleTimer = nil
 		
 		// Only rotating symbology may be toggled
-		if self.entryData?.getSegmentType() == .ROTATING_SYMBOLOGY {
-			self.toggleStatic = !self.toggleStatic
+		if self.entryData?.getRenderType() == .ROTATING || self.entryData?.getRenderType() == .STATIC_PDF {
+			self.forceQR = !self.forceQR
 		}
 		toggleUpdate()
 	}
 	
 	@objc fileprivate func toggleModeOff() {
-		self.toggleStatic = false
+		self.forceQR = false
 		toggleUpdate()
 	}
 	
 	@objc fileprivate func toggleUpdate() {
         // Only rotating symbology may be toggled
-        if self.entryData?.getSegmentType() == .ROTATING_SYMBOLOGY {
-            if true == self.toggleStatic {
+        if self.entryData?.getRenderType() == .ROTATING || self.entryData?.getRenderType() == .STATIC_PDF {
+            if true == self.forceQR {
                 self.toggleButton?.setImage(UIImage(named: "Swap", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
                 self.update()
-                self.retImageView?.isHidden = false
-                self.retImageView?.alpha = 1
-                self.retImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
+                self.pdfImageView?.isHidden = false
+                self.pdfImageView?.alpha = 1
+                self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
                 self.scanAnimBox?.isHidden = true
                 self.scanAnimLine?.isHidden = true
-                self.staticImageView?.isHidden = false
-                self.staticImageView?.alpha = 0
-                self.staticImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
+                self.qrImageView?.isHidden = false
+                self.qrImageView?.alpha = 0
+                self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
                 UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration * 1.5, delay: 0,
                                usingSpringWithDamping: 0.7,
                                initialSpringVelocity: 1.0,
                                options: [.curveEaseOut], animations: {
-                    self.retImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
-                    self.retImageView?.alpha = 0
+                    self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
+                    self.pdfImageView?.alpha = 0
                     
-                    self.staticImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
-                    self.staticImageView?.alpha = 1
+                    self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
+                    self.qrImageView?.alpha = 1
                 }, completion: { done in
-					if true == self.toggleStatic {
+					if true == self.forceQR {
 						//self.stopAnimation()
 						self.update()
 						
@@ -495,25 +490,25 @@ internal struct SecureEntryConstants {
             } else {
                 self.toggleButton?.setImage(UIImage(named: "Overflow", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
                 self.update()
-                self.retImageView?.isHidden = false
-                self.retImageView?.alpha = 0
-                self.retImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
+                self.pdfImageView?.isHidden = false
+                self.pdfImageView?.alpha = 0
+                self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
                 self.scanAnimBox?.isHidden = true
                 self.scanAnimLine?.isHidden = true
-                self.staticImageView?.isHidden = false
-                self.staticImageView?.alpha = 1
-                self.staticImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
+                self.qrImageView?.isHidden = false
+                self.qrImageView?.alpha = 1
+                self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
                 UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration * 1.5, delay: 0,
                                 usingSpringWithDamping: 0.7,
                                 initialSpringVelocity: 1.0,
                                 options: [.curveEaseOut], animations: {
-                    self.retImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
-                    self.retImageView?.alpha = 1
+                    self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
+                    self.pdfImageView?.alpha = 1
                     
-                    self.staticImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
-                    self.staticImageView?.alpha = 0
+                    self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
+                    self.qrImageView?.alpha = 0
                 }, completion: { done in
-					if false == self.toggleStatic {
+					if false == self.forceQR {
 						self.startAnimation()
 					}
                 })
@@ -536,11 +531,11 @@ internal struct SecureEntryConstants {
 		outerRect.size.width = max(SecureEntryConstants.Keys.MinOuterWidth, outerRect.size.width)
 		outerRect.size.height = max(SecureEntryConstants.Keys.MinOuterHeight, outerRect.size.height)
 		
-		retRect.size.width = max(SecureEntryConstants.Keys.MinRetWidth, outerRect.size.width)
-		retRect.size.height = max(SecureEntryConstants.Keys.MinRetHeight, retRect.size.width / 4.0)
+		retRect.size.width = max(SecureEntryConstants.Keys.MinPDFWidth, outerRect.size.width)
+		retRect.size.height = max(SecureEntryConstants.Keys.MinPDFHeight, retRect.size.width / 4.0)
 		
-		staticRect.size.width = max(SecureEntryConstants.Keys.MinStaticWidthHeight, outerRect.size.height)
-		staticRect.size.height = max(SecureEntryConstants.Keys.MinStaticWidthHeight, staticRect.size.width)
+		staticRect.size.width = max(SecureEntryConstants.Keys.MinQRWidthHeight, outerRect.size.height)
+		staticRect.size.height = max(SecureEntryConstants.Keys.MinQRWidthHeight, staticRect.size.width)
 		
 		errorRect.size.width = max(SecureEntryConstants.Keys.MinErrorWidth, outerRect.size.width * (SecureEntryConstants.Keys.MinErrorWidth/SecureEntryConstants.Keys.MinOuterWidth))
 		errorRect.size.height = max(SecureEntryConstants.Keys.MinErrorHeight, errorRect.size.width * (SecureEntryConstants.Keys.MinErrorHeight/SecureEntryConstants.Keys.MinErrorWidth))
@@ -594,49 +589,49 @@ internal struct SecureEntryConstants {
 					}
 				}
 				
-				if staticImageView != nil {} else {
-					staticImageView = UIImageView(frame: staticRect)
-					if let staticImageView = staticImageView {
-						staticImageView.layer.masksToBounds = true
-						staticImageView.layer.backgroundColor = UIColor.white.cgColor
-						staticImageView.layer.borderWidth = 0
-						staticImageView.layer.cornerRadius = 4
-						staticImageView.isHidden = true
-						outerView.addSubview(staticImageView)
+				if qrImageView != nil {} else {
+					qrImageView = UIImageView(frame: staticRect)
+					if let qrImageView = qrImageView {
+						qrImageView.layer.masksToBounds = true
+						qrImageView.layer.backgroundColor = UIColor.white.cgColor
+						qrImageView.layer.borderWidth = 0
+						qrImageView.layer.cornerRadius = 4
+						qrImageView.isHidden = true
+						outerView.addSubview(qrImageView)
 						
-						staticImageView.center.x = self.bounds.width / 2.0
-						staticImageView.center.y = self.bounds.height / 2.0
-						staticImageView.translatesAutoresizingMaskIntoConstraints = false
-						staticImageView.widthAnchor.constraint(equalToConstant: staticRect.width).isActive = true
-						staticImageView.heightAnchor.constraint(equalToConstant: staticRect.height).isActive = true
-						staticImageView.centerXAnchor.constraint(equalTo: outerView.centerXAnchor).isActive = true
-						staticImageView.centerYAnchor.constraint(equalTo: outerView.centerYAnchor).isActive = true
+						qrImageView.center.x = self.bounds.width / 2.0
+						qrImageView.center.y = self.bounds.height / 2.0
+						qrImageView.translatesAutoresizingMaskIntoConstraints = false
+						qrImageView.widthAnchor.constraint(equalToConstant: staticRect.width).isActive = true
+						qrImageView.heightAnchor.constraint(equalToConstant: staticRect.height).isActive = true
+						qrImageView.centerXAnchor.constraint(equalTo: outerView.centerXAnchor).isActive = true
+						qrImageView.centerYAnchor.constraint(equalTo: outerView.centerYAnchor).isActive = true
 					}
 				}
 				
-				if retImageView != nil {} else {
-					retImageView = UIImageView(frame: retRect)
-					if let retImageView = retImageView {
-						retImageView.layer.masksToBounds = true
-						retImageView.layer.backgroundColor = UIColor.white.cgColor
-						retImageView.layer.borderWidth = 0
-						retImageView.layer.cornerRadius = 4
-						retImageView.isHidden = true
-						outerView.addSubview(retImageView)
+				if pdfImageView != nil {} else {
+					pdfImageView = UIImageView(frame: retRect)
+					if let pdfImageView = pdfImageView {
+						pdfImageView.layer.masksToBounds = true
+						pdfImageView.layer.backgroundColor = UIColor.white.cgColor
+						pdfImageView.layer.borderWidth = 0
+						pdfImageView.layer.cornerRadius = 4
+						pdfImageView.isHidden = true
+						outerView.addSubview(pdfImageView)
 						
-						retImageView.center.x = self.bounds.width / 2.0
-						retImageView.center.y = self.bounds.height / 2.0
-						retImageView.translatesAutoresizingMaskIntoConstraints = false
-						retImageView.widthAnchor.constraint(equalToConstant: retRect.width).isActive = true
-						retImageView.heightAnchor.constraint(equalToConstant: retRect.height).isActive = true
-						retImageView.centerXAnchor.constraint(equalTo: outerView.centerXAnchor).isActive = true
-						retImageView.centerYAnchor.constraint(equalTo: outerView.centerYAnchor).isActive = true
+						pdfImageView.center.x = self.bounds.width / 2.0
+						pdfImageView.center.y = self.bounds.height / 2.0
+						pdfImageView.translatesAutoresizingMaskIntoConstraints = false
+						pdfImageView.widthAnchor.constraint(equalToConstant: retRect.width).isActive = true
+						pdfImageView.heightAnchor.constraint(equalToConstant: retRect.height).isActive = true
+						pdfImageView.centerXAnchor.constraint(equalTo: outerView.centerXAnchor).isActive = true
+						pdfImageView.centerYAnchor.constraint(equalTo: outerView.centerYAnchor).isActive = true
 					}
 				}
 				
 				if toggleButton != nil {} else {
 					toggleButton = UIButton(frame: buttonRect)
-					if let toggleButton = toggleButton, let retView = retImageView {
+					if let toggleButton = toggleButton, let retView = pdfImageView {
 						toggleButton.layer.masksToBounds = true
 						toggleButton.setImage(UIImage(named: "Overflow", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
 						toggleButton.addTarget(self, action: #selector(self.toggleMode), for: .touchUpInside)
@@ -760,57 +755,50 @@ internal struct SecureEntryConstants {
 		}
 		
 		#if TARGET_INTERFACE_BUILDER
-		retImageView?.isHidden = staticOnlyInternal ? true : false
+		pdfImageView?.isHidden = staticOnlyInternal ? true : false
 		toggleButton?.isHidden = staticOnlyInternal ? true : false
 		scanAnimBox?.isHidden = staticOnlyInternal ? true : false
 		scanAnimLine?.isHidden = staticOnlyInternal ? true : false
-		staticImageView?.isHidden = staticOnlyInternal ? false : true
+		qrImageView?.isHidden = staticOnlyInternal ? false : true
 		loadingImageView?.isHidden = true
 		errorView?.isHidden = true
 		//self.entryData = EntryData(tokenString: "eyJiIjoiNzgxOTQxNjAzMDAxIiwidCI6IlRNOjowMzo6MjAxeXRmbmllN2tpZmxzZ2hncHQ5ZDR4N2JudTljaG4zYWNwdzdocjdkOWZzc3MxcyIsImNrIjoiMzRkNmQyNTNiYjNkZTIxOTFlZDkzMGY2MmFkOGQ0ZDM4NGVhZTVmNSJ9")
-		self.staticMessage = "\(staticOnlyInternal)"
-		self.fullMessage = "THIS IS A SAMPLE SECURE ENTRY VALUE (Unique ID: \(Date().description(with: Locale.current).hashValue))"
+		self.qrValue = "\(staticOnlyInternal)"
+		self.pdfValue = "THIS IS A SAMPLE SECURE ENTRY VALUE (Unique ID: \(Date().description(with: Locale.current).hashValue))"
 		self.start()
 		#endif // TARGET_INTERFACE_BUILDER
 	}
 	
-	@objc fileprivate func startAnimation() {
+	@objc public func startAnimation() {
+        // If error is showing, don't display animation
+        if self.errorView?.isHidden == false {
+            return
+        }
+        // Only start animation once animation components are initialized
 		if scanAnimBox != nil {
-            guard let entryData = self.entryData, entryData.getSegmentType() == .ROTATING_SYMBOLOGY, let scanAnimBox = self.scanAnimBox, let scanAnimLine = self.scanAnimLine, let retImageView = self.retImageView else {
+            guard let entryData = self.entryData, (entryData.getRenderType() == .ROTATING || entryData.getRenderType() == .STATIC_PDF), let scanAnimBox = self.scanAnimBox, let scanAnimLine = self.scanAnimLine, let pdfImageView = self.pdfImageView else {
                 self.scanAnimBox?.isHidden = true
                 self.scanAnimLine?.isHidden = true
                 return
             }
 			
-			if self.toggleStatic == false {
+			if self.forceQR == false {
 				scanAnimBox.isHidden = false
 				scanAnimLine.isHidden = false
 			}
-			
+            
 			if scanAnimBox.layer.animationKeys() == nil || scanAnimLine.layer.animationKeys() == nil {
 				scanAnimBox.layer.removeAllAnimations()
-				scanAnimLine.layer.removeAllAnimations()
-				
-				scanAnimBox.center.x = scanAnimBox.frame.size.width / 2
-				scanAnimLine.center.x = scanAnimBox.frame.size.width / 2
-				UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay + SecureEntryConstants.Keys.ScanBoxAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-					scanAnimBox.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
-				}, completion: nil)
-				UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-					scanAnimLine.center.x = retImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
-				}, completion: nil)
-				
-				/*UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0.05, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
-				UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
-				UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimBox.center.x = self.scanAnimBox.frame.size.width / 2 }
-				UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimBox.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
-				})
-				
-				UIView.animateKeyframes(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: 0, options: [.calculationModeLinear, .repeat, .autoreverse, .overrideInheritedDuration], animations: {
-				UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.0) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
-				UIView.addKeyframe(withRelativeStartTime: 0.01, relativeDuration: 0.25) { self.scanAnimLine.center.x = self.scanAnimBox.frame.size.width / 2 }
-				UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.5) { self.scanAnimLine.center.x = self.retImageView?.frame?.size.width - ( self.scanAnimBox.frame.size.width / 2 ) }
-				})*/
+	            scanAnimLine.layer.removeAllAnimations()
+            
+	            scanAnimBox.center.x = scanAnimBox.frame.size.width / 2
+	            scanAnimLine.center.x = scanAnimBox.frame.size.width / 2
+	            UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay + SecureEntryConstants.Keys.ScanBoxAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+	                scanAnimBox.center.x = pdfImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
+	            }, completion: nil)
+	            UIView.animate(withDuration: SecureEntryConstants.Keys.ScanAnimDuration, delay: SecureEntryConstants.Keys.ScanAnimStartDelay, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+	                scanAnimLine.center.x = pdfImageView.frame.size.width - ( scanAnimBox.frame.size.width / 2 )
+	            }, completion: nil)
 			}
 		}
 	}
@@ -826,16 +814,36 @@ internal struct SecureEntryConstants {
 	}
 	
 	@objc fileprivate func update() {
+        // If error is showing, don't update
+        if self.errorView?.isHidden == false {
+            return
+        }
 		guard let entryData = self.entryData else {
 			return
 		}
 		
-		retImageView?.isHidden = true
-		staticImageView?.isHidden = true
+		pdfImageView?.isHidden = true
+		qrImageView?.isHidden = true
 		toggleButton?.isHidden = true
 		errorView?.isHidden = true
 		
-		if ( self.toggleStatic == false ) && ( self.entryData?.getSegmentType() == .ROTATING_SYMBOLOGY ) {
+		if ( self.forceQR == true ) || ( entryData.getRenderType() == .STATIC_QR ) {
+			qrImageView?.isHidden = false
+			loadingImageView?.isHidden = true
+			if self.forceQR == true {
+				toggleButton?.isHidden = false
+			}
+			qrValue = self.entryData?.getBarcode()
+		} else if entryData.getRenderType() == .STATIC_PDF {
+			pdfImageView?.isHidden = false
+			toggleButton?.isHidden = false
+			loadingImageView?.isHidden = true
+			if self.forceQR == true {
+				toggleButton?.isHidden = false
+			}
+			pdfValue = self.entryData?.getBarcode()
+			qrValue = self.entryData?.getBarcode()
+		} else if self.entryData?.getRenderType() == .ROTATING {
 			if TOTP.shared == nil {
 				TOTP.update()
 			}
@@ -844,13 +852,12 @@ internal struct SecureEntryConstants {
 				return
 			}
 			
-			
-			retImageView?.isHidden = false
+			pdfImageView?.isHidden = false
 			loadingImageView?.isHidden = true
 			toggleButton?.isHidden = false
 			
 			// Get simple barcoee message
-			staticMessage = self.entryData?.getBarcode()
+			qrValue = self.entryData?.getBarcode()
 			
 			// Customer key is always required, so fetch it
 			guard let customerNow = totp.generate(secret: self.entryData?.getCustomerKey() ?? Data()) else {
@@ -863,17 +870,10 @@ internal struct SecureEntryConstants {
 					return
 				}
 				
-				fullMessage = (self.entryData?.getToken() ?? "") + "::" + eventNow + "::" + customerNow
+				pdfValue = (self.entryData?.getToken() ?? "") + "::" + eventNow + "::" + customerNow
 			} else {
-				fullMessage = (self.entryData?.getToken() ?? "") + "::" + customerNow
+				pdfValue = (self.entryData?.getToken() ?? "") + "::" + customerNow
 			}
-		} else if ( self.toggleStatic == true ) || ( entryData.getSegmentType() == .BARCODE ) {
-			staticImageView?.isHidden = false
-			loadingImageView?.isHidden = true
-			if self.toggleStatic == true {
-				toggleButton?.isHidden = false
-			}
-			staticMessage = self.entryData?.getBarcode()
 		} else {
 			errorView?.isHidden = false
 		}

@@ -30,10 +30,10 @@ class StaticViewController: UIViewController {
         staticViewSized?.setToken(token:"eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ==")
 		
 		// Large view, rendered edge-to-edge (using v4 RET token format, with no RET keys - which should fall back to Static)
-        staticViewFull?.setToken(token:"eyJiIjoiODMwNTM2NjY1MTU4ayIsInJ0Ijoicm90YXRpbmdfc3ltYm9sb2d5In0=")
+        staticViewFull?.setToken(token:"eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ==")
 		
-		// A small invalid (no token) error state, with default error message
-		staticViewNoToken?.setToken(token:nil, errorText:nil)
+		// A small static PDF417 (missing RET token/keys) state
+		staticViewNoToken?.setToken(token:"eyJiIjoiODMwNTM2NjY1MTU4ayIsInJ0Ijoicm90YXRpbmdfc3ltYm9sb2d5In0=", errorText:nil)
 		
 		// A large invalid (bad token) error state, with a longer error message
 		staticViewInvalid?.setToken(token:"ABC123", errorText:"Custom user guidance can be entered here, 60 char max length")

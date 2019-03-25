@@ -30,22 +30,24 @@ struct EntryData: Decodable {
 		case renderType = "rt"
 	}
 	
-	enum SegmentType {
+	enum RenderType {
 		// Invalid type
 		case INVALID
-		// Static barcode
-		case BARCODE
+		// Static QR barcode
+		case STATIC_QR
+		// Static PDF417 barcode
+		case STATIC_PDF
 		// RET (rotating entry)
-		case ROTATING_SYMBOLOGY
+		case ROTATING
 	}
 	
 	fileprivate var barcode: String?
 	fileprivate var token: String?
 	fileprivate var customerKey: String?
 	fileprivate var eventKey: String?
-	fileprivate var segmentType: SegmentType?
+	fileprivate var renderType: RenderType?
 	
-	fileprivate func encodeOTPSecretBytes(_ string: String) -> Data? {
+	internal static func encodeOTPSecretBytes(_ string: String) -> Data? {
 		let length = string.lengthOfBytes(using: .ascii)
 		if length & 1 != 0 {
 			return nil
@@ -72,7 +74,7 @@ struct EntryData: Decodable {
 		do {
 			barcode = try values.decode(String.self, forKey: CodingKeys.barcode)
             if let barcode = barcode, barcode.lengthOfBytes(using: String.Encoding.ascii) > 0 {
-                segmentType = .BARCODE
+                renderType = .STATIC_QR
             }
 		} catch {
 			// Not a barcode payload
@@ -84,8 +86,8 @@ struct EntryData: Decodable {
 			customerKey = try values.decode(String.self, forKey: CodingKeys.customerKey)
 			eventKey = try values.decodeIfPresent(String.self, forKey: CodingKeys.eventKey)
             if let token = token, token.lengthOfBytes(using: String.Encoding.ascii) > 0, let customerKey = customerKey, customerKey.lengthOfBytes(using: String.Encoding.ascii) > 0 {
-                segmentType = .ROTATING_SYMBOLOGY
-            }
+                renderType = .ROTATING
+			}
 		} catch {
 			// Not a RET token
 		}
@@ -97,12 +99,14 @@ struct EntryData: Decodable {
 				case "rotating_symbology":
 					// Only force RET if an actual token+key is provided
 					if let token = token, token.lengthOfBytes(using: String.Encoding.ascii) > 0, let customerKey = customerKey, customerKey.lengthOfBytes(using: String.Encoding.ascii) > 0 {
-						segmentType = .ROTATING_SYMBOLOGY;
+						self.renderType = .ROTATING;
+					} else {
+						self.renderType = .STATIC_PDF
 					}
 					break
 				case "barcode":
 					// Force rendering of static barcode
-					segmentType = .BARCODE;
+					self.renderType = .STATIC_QR;
 					break
 				default: break
 				}
@@ -123,12 +127,12 @@ struct EntryData: Decodable {
 			self.token = newEntryData.token ?? ""
 			self.customerKey = newEntryData.customerKey ?? ""
 			self.eventKey = newEntryData.eventKey ?? ""
-			self.segmentType = newEntryData.segmentType ?? .INVALID
+			self.renderType = newEntryData.renderType ?? .INVALID
 		} catch let error {
 			// Test for valid barcode value, and create static barcode
 			if tokenString.range(of: "^[0-9]{12,18}(?:[A-Za-z])?$", options: .regularExpression, range: nil, locale: nil) != nil {
 				self.barcode = tokenString
-				self.segmentType = .BARCODE
+				self.renderType = .STATIC_QR
 				return
 			}
 			print(error)
@@ -147,19 +151,19 @@ struct EntryData: Decodable {
 	
 	func getCustomerKey() -> Data? {
 		if (customerKey ?? "").lengthOfBytes(using: String.Encoding.ascii) > 0 {
-			return encodeOTPSecretBytes(customerKey ?? "") ?? Data()
+			return EntryData.encodeOTPSecretBytes(customerKey ?? "") ?? Data()
 		}
 		return nil
 	}
 	
 	func getEventKey() -> Data? {
 		if (eventKey ?? "").lengthOfBytes(using: String.Encoding.ascii) > 0 {
-			return encodeOTPSecretBytes(eventKey ?? "") ?? Data()
+			return EntryData.encodeOTPSecretBytes(eventKey ?? "") ?? Data()
 		}
 		return nil
 	}
 	
-	func getSegmentType() -> SegmentType {
-		return segmentType ?? .INVALID
+	func getRenderType() -> RenderType {
+		return renderType ?? .INVALID
 	}
 }
