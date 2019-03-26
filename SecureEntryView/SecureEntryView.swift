@@ -529,10 +529,10 @@ internal struct SecureEntryConstants {
 		
 		outerRect.size.width = max(SecureEntryConstants.Keys.MinOuterWidth, outerRect.size.width)
 		outerRect.size.height = max(SecureEntryConstants.Keys.MinOuterHeight, outerRect.size.height)
+		
 		let sizeFactor = SecureEntryConstants.Keys.MinOuterWidth / outerRect.size.width
-
-		retRect.size.width = max(SecureEntryConstants.Keys.MinRetWidth, outerRect.size.width)
-		retRect.size.height = max(SecureEntryConstants.Keys.MinRetHeight, retRect.size.width / 4.0)
+		retRect.size.width = max(SecureEntryConstants.Keys.MinPDFWidth, outerRect.size.width)
+		retRect.size.height = max(SecureEntryConstants.Keys.MinPDFHeight, retRect.size.width / 4.0)
 		
 		staticRect.size.width = max(SecureEntryConstants.Keys.MinQRWidthHeight, outerRect.size.height)
 		staticRect.size.height = max(SecureEntryConstants.Keys.MinQRWidthHeight, staticRect.size.width)
