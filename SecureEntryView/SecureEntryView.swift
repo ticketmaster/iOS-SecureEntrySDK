@@ -330,7 +330,7 @@ internal struct SecureEntryConstants {
                         UIGraphicsEndImageContext()
                         
                         // Apply the image
-                        qrImageView.layer.magnificationFilter = kCAFilterNearest
+                        qrImageView.layer.magnificationFilter = CALayerContentsFilter.nearest
                         qrImageView.image = imageWithInsets
                     }
                 }
@@ -386,7 +386,7 @@ internal struct SecureEntryConstants {
                         UIGraphicsEndImageContext()
                         
                         // Apply the image
-                        pdfImageView.layer.magnificationFilter = kCAFilterNearest
+                        pdfImageView.layer.magnificationFilter = CALayerContentsFilter.nearest
                         pdfImageView.image = imageWithInsets
                     }
                     
@@ -426,9 +426,9 @@ internal struct SecureEntryConstants {
                         image.draw(in: CGRect(x: insetValue, y: insetValue, width: qrImageView.bounds.size.width, height: qrImageView.bounds.size.height))
                         imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
                         UIGraphicsEndImageContext()
-                        
+                    
                         // Apply the image
-                        qrImageView.layer.magnificationFilter = kCAFilterNearest
+                        qrImageView.layer.magnificationFilter = CALayerContentsFilter.nearest
                         qrImageView.image = imageWithInsets
                     }
                 }
