@@ -849,6 +849,7 @@ internal struct SecureEntryConstants {
 			}
 			
 			guard let totp = TOTP.shared else {
+				self.showError( text: self.errorText ?? SecureEntryConstants.Strings.DefaultErrorText, icon: nil )
 				return
 			}
 			
@@ -867,6 +868,7 @@ internal struct SecureEntryConstants {
 			// Event key may not be provided, so only generate if available
 			if let eventKey = self.entryData?.getEventKey() {
 				guard let eventNow = totp.generate(secret: eventKey) else {
+					
 					return
 				}
 				

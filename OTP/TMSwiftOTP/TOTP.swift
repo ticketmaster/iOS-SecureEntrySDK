@@ -55,11 +55,18 @@ internal struct TOTP {
 		
 	//Generate from Monotonic Clock timestamp
 	internal func generate(secret: Data) -> String? {
-        guard let saneTime = Clock.timestamp else {
-            return nil
+		
+		// Attempt to use sanetime first, but fallback to device time if unavailable
+		var timeValue = Clock.timestamp
+		if timeValue == nil {
+			timeValue = Date().timeIntervalSince1970
         }
-		let counterValue = Int(floor(Double(saneTime) / Double(timeInterval)))
-        return GenerateOTP(secret: secret, algorithm: algorithm, counter: UInt64(counterValue), digits: digits)
+		
+		if let saneTime = timeValue {
+			let counterValue = Int(floor(Double(saneTime) / Double(timeInterval)))
+			return GenerateOTP(secret: secret, algorithm: algorithm, counter: UInt64(counterValue), digits: digits)
+		}
+		return nil
 	}
     
     //Check to see if digits value provided is between 6...8 (specified in RFC 4226)
