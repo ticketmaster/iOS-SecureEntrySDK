@@ -50,15 +50,15 @@ internal struct SecureEntryConstants {
 		
 		static let PDFBorderWidth = CGFloat(8.0)
 		static let QRBorderWidth = CGFloat(10.0) // QR is rendered with a transparent border already so effective border will be greater than this value
-		
+		static let ScreenShotWidth = CGFloat(200.0)
+        static let ScreenShotHeight = CGFloat(50.0)
+        
 		static let ScanBoxWidth = CGFloat(12.0)
 		static let ScanLineWidth = CGFloat(4.0)
 		static let ScanAnimDuration = Double(1.5)
 		static let ScanAnimStartDelay = Double(0.3)
 		static let ScanBoxAnimStartDelay = Double(0.1)
 		
-		static let ToggleButtonMargin = CGFloat(-3.0)
-		static let ToggleButtonWidthHeight = CGFloat(30.0)
 		static let ToggleAnimDuration = Double(0.3)
 	}
 	
@@ -101,12 +101,19 @@ internal struct SecureEntryConstants {
 	internal var livePreviewInternal: Bool = false
 	internal var staticOnlyInternal: Bool = false
 	internal var brandingColorInternal: UIColor?
+    internal var qrBarcodeSubtitleInternal: String = "Screenshots are not accepted for entry"
+    internal var pdf417BarcodeSubtitleInternal: String = "Screenshots are not accepted for entry"
+    internal var qrBarcodeSubtitleBlank: Bool = false
+    internal var pdf417BarcodeSubtitleBlank: Bool = false
+    internal var brandSubtitleTextInternal: Bool = false
 	internal let timeInterval: TimeInterval = 15
 	internal var outerView: UIImageView?
 	internal var loadingImageView: UIImageView? //= WKWebView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
 	internal var pdfImageView: UIImageView?
 	internal var qrImageView: UIImageView?
 	internal var toggleButton: UIButton?
+    internal var pdf417SubtitleLabel: UILabel?
+    internal var qrSubtitleLabel: UILabel?
 	internal var forceQR: Bool = false
     internal var errorText: String?
 	internal var errorView: UIView?
@@ -154,6 +161,45 @@ internal struct SecureEntryConstants {
 		}
 	}
     
+    
+    @IBInspectable internal var qrBarcodeSubtitle: String {
+        get {
+            return self.qrBarcodeSubtitleInternal
+        }
+        set {
+            qrBarcodeSubtitleInternal = newValue
+            qrBarcodeSubtitleBlank = newValue.isEmpty
+            qrSubtitleLabel?.text = newValue
+        }
+    }
+    
+    @IBInspectable internal var pdf417BarcodeSubtitle: String {
+        get {
+            return self.pdf417BarcodeSubtitleInternal
+        }
+        set {
+            pdf417BarcodeSubtitleInternal = newValue
+            pdf417BarcodeSubtitleBlank = newValue.isEmpty
+            pdf417SubtitleLabel?.text = newValue
+        }
+    }
+    
+    @IBInspectable internal var brandSubtitleText: Bool {
+        get {
+            return self.brandSubtitleTextInternal
+        }
+        set {
+            self.brandSubtitleTextInternal = newValue
+            if newValue {
+                pdf417SubtitleLabel?.textColor = brandingColor
+                qrSubtitleLabel?.textColor = brandingColor
+            } else{
+                pdf417SubtitleLabel?.textColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
+                qrSubtitleLabel?.textColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
+            }
+        }
+    }
+    
     public func syncTime( completed: ((_ synced: Bool) -> Void)? = nil ) {
         // Kick off a single clock sync
         #if !TARGET_INTERFACE_BUILDER
@@ -193,6 +239,11 @@ internal struct SecureEntryConstants {
         }
 	}
 	
+    /**
+     Used to pass in the token value to generate the pdf417 barcode.
+     
+     - Parameter token: The token
+     */
 	public func setToken( token: String!, errorText: String? = nil ) {
         self.errorText = errorText
         
@@ -229,9 +280,41 @@ internal struct SecureEntryConstants {
 		}
 	}
 	
+    /**
+     Allows the pdf417's animation to be colored. If not set, will use a default color.
+     
+     - Parameter color: The color which will be used for the animation.
+     */
 	public func setBrandingColor( color: UIColor! ) {
 		brandingColor = color
 	}
+    
+    /**
+     Creates a custom subtitle for the pdf417 variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden. Default text is "Screenshots not accepted for entry".
+     
+     - Parameter subtitleText: The text that will be displayed below the PDF417 barcode.
+     */
+    public func setPdf417Subtitle( subtitleText: String ) {
+        pdf417BarcodeSubtitle = subtitleText
+    }
+    
+    /**
+     Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden. Default text is "Screenshots not accepted for entry".
+     
+     - Parameter subtitleText: The text that will be displayed below the QR barcode.
+     */
+    public func setQrCodeSubtitle( subtitleText: String ) {
+        qrBarcodeSubtitle = subtitleText
+    }
+    
+    /**
+     Sets the subtitle text to match the color of the provided brandingColor. Note: It will be set for both QR and PDF417. Default is false.
+     
+     - Parameter enable: true or false to enable branded subtitle text.
+     */
+    public func enableBrandedSubtitle( enable: Bool ) {
+        brandSubtitleText = enable
+    }
 	
 	/*
 	// Only override draw() if you perform custom drawing.
@@ -306,13 +389,12 @@ internal struct SecureEntryConstants {
 				return
 			}
 			
-			if let qrImageView = self.qrImageView {
+			if let qrImageView = self.qrImageView, let renderType = self.entryData?.getRenderType() {
                 // Generate & scale the Static barcode (QR)
                 qrImageView.image = nil
                 if let staticFilter = CIFilter(name: "CIQRCodeGenerator") {
                     staticFilter.setValue("Q", forKey: "inputCorrectionLevel")
                     staticFilter.setValue(qrValue?.dataUsingUTF8StringEncoding, forKey: "inputMessage")
-                    
                     if let scaled = staticFilter.outputImage {
                         var imageWithInsets: UIImage? = nil
                         
@@ -320,7 +402,10 @@ internal struct SecureEntryConstants {
                         let image = UIImage(ciImage: scaled, scale: 1, orientation: .up)
                         let scaleFactor = ( SecureEntryConstants.Keys.MinQRWidthHeight + ( SecureEntryConstants.Keys.QRBorderWidth * 2 ) ) / qrImageView.frame.width
                         let insetValue = SecureEntryConstants.Keys.QRBorderWidth * scaleFactor
-                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        var insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        if !qrBarcodeSubtitleBlank && renderType != .STATIC_QR {
+                            insets.bottom = insetValue * 3
+                        }
                         UIGraphicsBeginImageContextWithOptions( CGSize(width: qrImageView.bounds.size.width + insets.left + insets.right, height: qrImageView.bounds.size.height + insets.top + insets.bottom), false, 1)
                         if let scaledContext = UIGraphicsGetCurrentContext() {
                             scaledContext.interpolationQuality = .none
@@ -332,6 +417,13 @@ internal struct SecureEntryConstants {
                         // Apply the image
                         qrImageView.layer.magnificationFilter = CALayerContentsFilter.nearest
                         qrImageView.image = imageWithInsets
+                        
+                        
+                        if let labelHeight = qrSubtitleLabel?.frame.size.height {
+                            let spaceBelowQR = SecureEntryConstants.Keys.PDFBorderWidth * 3
+                            let spacing = (spaceBelowQR - labelHeight) / 2
+                            qrSubtitleLabel?.bottomAnchor.constraint(equalTo: qrImageView.bottomAnchor, constant: -spacing).isActive = true
+                        }
                     }
                 }
 			}
@@ -375,7 +467,16 @@ internal struct SecureEntryConstants {
                         let image = UIImage(ciImage: output, scale: 1, orientation: .up)
                         let scaleFactor = ( SecureEntryConstants.Keys.MinPDFWidth + ( SecureEntryConstants.Keys.PDFBorderWidth * 2 ) ) / pdfImageView.frame.width
                         let insetValue = SecureEntryConstants.Keys.PDFBorderWidth * scaleFactor
-                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        var insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        if !pdf417BarcodeSubtitleBlank && renderType == .ROTATING{
+                            if flipped{
+                                insets.top = insetValue
+                                insets.bottom = insetValue * 3
+                            } else{
+                                insets.top = insetValue * 3
+                                insets.bottom = insetValue
+                            }
+                        }
                         UIGraphicsBeginImageContextWithOptions( CGSize(width: image.size.width + insets.left + insets.right, height: image.size.height + insets.top + insets.bottom), false, 1)
                         if let scaledContext = UIGraphicsGetCurrentContext() {
                             scaledContext.interpolationQuality = .none
@@ -388,6 +489,13 @@ internal struct SecureEntryConstants {
                         // Apply the image
                         pdfImageView.layer.magnificationFilter = CALayerContentsFilter.nearest
                         pdfImageView.image = imageWithInsets
+                        
+                        if let labelHeight = pdf417SubtitleLabel?.frame.size.height {
+                            let spaceBelowQR = SecureEntryConstants.Keys.PDFBorderWidth * 3
+                            let spacing = (spaceBelowQR - labelHeight) / 2
+                            //Set up constraint for screenshot label
+                            pdf417SubtitleLabel?.bottomAnchor.constraint(equalTo: pdfImageView.bottomAnchor, constant: -spacing).isActive = true
+                        }
                     }
                     
                     self.flipped = !self.flipped
@@ -418,7 +526,11 @@ internal struct SecureEntryConstants {
                         let image = UIImage(ciImage: scaled, scale: 1, orientation: .up)
                         let scaleFactor = ( SecureEntryConstants.Keys.MinQRWidthHeight + ( SecureEntryConstants.Keys.QRBorderWidth * 2 ) ) / qrImageView.frame.width
                         let insetValue = SecureEntryConstants.Keys.QRBorderWidth * scaleFactor
-                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: insetValue, right: insetValue)
+                        var barcodeTextInsetValue = insetValue * 3
+                        if qrBarcodeSubtitleBlank {
+                            barcodeTextInsetValue = insetValue
+                        }
+                        let insets = UIEdgeInsets(top: insetValue, left: insetValue, bottom: barcodeTextInsetValue, right: insetValue)
                         UIGraphicsBeginImageContextWithOptions( CGSize(width: qrImageView.bounds.size.width + insets.left + insets.right, height: qrImageView.bounds.size.height + insets.top + insets.bottom), false, 1)
                         if let scaledContext = UIGraphicsGetCurrentContext() {
                             scaledContext.interpolationQuality = .none
@@ -457,56 +569,57 @@ internal struct SecureEntryConstants {
         // Only rotating symbology may be toggled
         if self.entryData?.getRenderType() == .ROTATING || self.entryData?.getRenderType() == .STATIC_PDF {
             if true == self.forceQR {
-                self.toggleButton?.setImage(UIImage(named: "Swap", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
                 self.update()
                 self.pdfImageView?.isHidden = false
                 self.pdfImageView?.alpha = 1
-                self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
                 self.scanAnimBox?.isHidden = true
                 self.scanAnimLine?.isHidden = true
                 self.qrImageView?.isHidden = false
                 self.qrImageView?.alpha = 0
-                self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
-                UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration * 1.5, delay: 0,
-                               usingSpringWithDamping: 0.7,
-                               initialSpringVelocity: 1.0,
-                               options: [.curveEaseOut], animations: {
-                    self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
+                if !qrBarcodeSubtitleBlank{
+                    self.pdf417SubtitleLabel?.isHidden = true
+                    self.pdf417SubtitleLabel?.alpha = 1
+                    self.qrSubtitleLabel?.isHidden = false
+                    self.qrSubtitleLabel?.alpha = 0
+                }
+                
+                UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration, delay: 0,
+                               options: [.transitionCrossDissolve], animations: {
                     self.pdfImageView?.alpha = 0
-                    
-                    self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
                     self.qrImageView?.alpha = 1
+                    self.pdf417SubtitleLabel?.alpha = 0
+                    self.qrSubtitleLabel?.alpha = 1
                 }, completion: { done in
 					if true == self.forceQR {
 						//self.stopAnimation()
 						self.update()
-						
 						self.toggleTimer?.invalidate()
                         self.toggleTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false, block: { [weak self] (_) in
                             self?.toggleModeOff()
                         })
 					}
                 })
+                
             } else {
-                self.toggleButton?.setImage(UIImage(named: "Overflow", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
                 self.update()
                 self.pdfImageView?.isHidden = false
                 self.pdfImageView?.alpha = 0
-                self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
                 self.scanAnimBox?.isHidden = true
                 self.scanAnimLine?.isHidden = true
                 self.qrImageView?.isHidden = false
                 self.qrImageView?.alpha = 1
-                self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
-                UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration * 1.5, delay: 0,
-                                usingSpringWithDamping: 0.7,
-                                initialSpringVelocity: 1.0,
-                                options: [.curveEaseOut], animations: {
-                    self.pdfImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) / 2
+                if !pdf417BarcodeSubtitleBlank{
+                    self.pdf417SubtitleLabel?.isHidden = true
+                    self.pdf417SubtitleLabel?.alpha = 0
+                    self.qrSubtitleLabel?.isHidden = false
+                    self.qrSubtitleLabel?.alpha = 1
+                }
+                UIView.animate( withDuration:SecureEntryConstants.Keys.ToggleAnimDuration, delay: 0,
+                                options: [.transitionCrossDissolve], animations: {
                     self.pdfImageView?.alpha = 1
-                    
-                    self.qrImageView?.center.y = ( self.outerView?.bounds.size.height ?? 0 ) * 2
                     self.qrImageView?.alpha = 0
+                    self.pdf417SubtitleLabel?.alpha = 1
+                    self.qrSubtitleLabel?.alpha = 0
                 }, completion: { done in
 					if false == self.forceQR {
 						self.startAnimation()
@@ -526,6 +639,7 @@ internal struct SecureEntryConstants {
 		var staticRect = self.frame
 		var errorRect = self.frame
 		var buttonRect = self.frame
+        let screenshotTextFieldRect = self.frame
 		
 		outerRect.size.width = max(SecureEntryConstants.Keys.MinOuterWidth, outerRect.size.width)
 		outerRect.size.height = max(SecureEntryConstants.Keys.MinOuterHeight, outerRect.size.height)
@@ -540,10 +654,8 @@ internal struct SecureEntryConstants {
 		errorRect.size.width = max(SecureEntryConstants.Keys.MinErrorWidth, outerRect.size.width * (SecureEntryConstants.Keys.MinErrorWidth/SecureEntryConstants.Keys.MinOuterWidth))
 		errorRect.size.height = max(SecureEntryConstants.Keys.MinErrorHeight, errorRect.size.width * (SecureEntryConstants.Keys.MinErrorHeight/SecureEntryConstants.Keys.MinErrorWidth))
 		
-		buttonRect.size.width = SecureEntryConstants.Keys.ToggleButtonWidthHeight
-		buttonRect.size.height = SecureEntryConstants.Keys.ToggleButtonWidthHeight
-		buttonRect.origin.x = outerRect.size.width - ( buttonRect.size.width + SecureEntryConstants.Keys.ToggleButtonMargin )
-		buttonRect.origin.y = outerRect.size.height - ( buttonRect.size.height + SecureEntryConstants.Keys.ToggleButtonMargin )
+		buttonRect.size.width = max(SecureEntryConstants.Keys.MinOuterWidth, outerRect.size.width)
+		buttonRect.size.height = max(SecureEntryConstants.Keys.MinOuterHeight, outerRect.size.height)
 		
 		if outerView != nil {} else {
 			outerView = UIImageView(frame: outerRect);
@@ -631,18 +743,17 @@ internal struct SecureEntryConstants {
 				
 				if toggleButton != nil {} else {
 					toggleButton = UIButton(frame: buttonRect)
-					if let toggleButton = toggleButton, let retView = pdfImageView {
+					if let toggleButton = toggleButton {
 						toggleButton.layer.masksToBounds = true
-						toggleButton.setImage(UIImage(named: "Overflow", in: Bundle(for: SecureEntryView.self), compatibleWith: nil), for: .normal)
 						toggleButton.addTarget(self, action: #selector(self.toggleMode), for: .touchUpInside)
 						toggleButton.isHidden = true
 						self.addSubview(toggleButton)
 						
                         toggleButton.translatesAutoresizingMaskIntoConstraints = false
-                        toggleButton.widthAnchor.constraint(equalToConstant: SecureEntryConstants.Keys.ToggleButtonWidthHeight).isActive = true
-                        toggleButton.heightAnchor.constraint(equalToConstant: SecureEntryConstants.Keys.ToggleButtonWidthHeight).isActive = true
-                        toggleButton.trailingAnchor.constraint(equalTo: retView.trailingAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
-                        toggleButton.bottomAnchor.constraint(equalTo: outerView.bottomAnchor, constant: -SecureEntryConstants.Keys.ToggleButtonMargin).isActive = true
+                        toggleButton.widthAnchor.constraint(equalToConstant: max(SecureEntryConstants.Keys.MinOuterWidth, outerRect.size.width)).isActive = true
+                        toggleButton.heightAnchor.constraint(equalToConstant: max(SecureEntryConstants.Keys.MinOuterHeight, outerRect.size.height)).isActive = true
+                        toggleButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+                        toggleButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 					}
 				}
 				
@@ -719,6 +830,41 @@ internal struct SecureEntryConstants {
 						}
 					}
 				}
+                
+                if pdf417SubtitleLabel != nil {} else {
+                    pdf417SubtitleLabel = UILabel.init(frame: screenshotTextFieldRect)
+                    if let screenShotView = pdf417SubtitleLabel, let pdf = pdfImageView{
+                        screenShotView.text = pdf417BarcodeSubtitleInternal
+                        screenShotView.textColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
+                        screenShotView.font = UIFont.systemFont(ofSize: 10)
+                        screenShotView.layer.masksToBounds = false
+                        screenShotView.isHidden = true
+                        screenShotView.textAlignment = .center
+                        outerView.addSubview(screenShotView)
+                        
+                        
+                        screenShotView.translatesAutoresizingMaskIntoConstraints = false
+                        screenShotView.leadingAnchor.constraint(equalTo: pdf.leadingAnchor, constant: 0).isActive = true
+                        screenShotView.trailingAnchor.constraint(equalTo: pdf.trailingAnchor, constant: 0).isActive = true
+                    }
+                }
+                
+                if qrSubtitleLabel != nil {} else {
+                    qrSubtitleLabel = UILabel.init(frame: screenshotTextFieldRect)
+                    if let screenShotView = qrSubtitleLabel, let qr = qrImageView{
+                        screenShotView.text = qrBarcodeSubtitleInternal
+                        screenShotView.textColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
+                        screenShotView.font = UIFont.systemFont(ofSize: 10)
+                        screenShotView.layer.masksToBounds = false
+                        screenShotView.isHidden = true
+                        screenShotView.textAlignment = .center
+                        outerView.addSubview(screenShotView)
+
+                        screenShotView.translatesAutoresizingMaskIntoConstraints = false
+                        screenShotView.leadingAnchor.constraint(equalTo: qr.leadingAnchor, constant:  0).isActive = true
+                        screenShotView.trailingAnchor.constraint(equalTo: qr.trailingAnchor, constant: 0).isActive = true
+                    }
+                }
 				
 				if scanAnimBox == nil {
 					var boxRect = retRect;
@@ -826,6 +972,8 @@ internal struct SecureEntryConstants {
 		qrImageView?.isHidden = true
 		toggleButton?.isHidden = true
 		errorView?.isHidden = true
+        qrSubtitleLabel?.isHidden = true
+        pdf417SubtitleLabel?.isHidden = true
 		
 		if ( self.forceQR == true ) || ( entryData.getRenderType() == .STATIC_QR ) {
 			qrImageView?.isHidden = false
@@ -834,6 +982,9 @@ internal struct SecureEntryConstants {
 				toggleButton?.isHidden = false
 			}
 			qrValue = self.entryData?.getBarcode()
+            if !qrBarcodeSubtitleBlank && entryData.getRenderType() != .STATIC_QR{
+                qrSubtitleLabel?.isHidden = false
+            }
 		} else if entryData.getRenderType() == .STATIC_PDF {
 			pdfImageView?.isHidden = false
 			toggleButton?.isHidden = false
@@ -876,6 +1027,9 @@ internal struct SecureEntryConstants {
 			} else {
 				pdfValue = (self.entryData?.getToken() ?? "") + "::" + customerNow
 			}
+            if !pdf417BarcodeSubtitleBlank{
+                pdf417SubtitleLabel?.isHidden = false
+            }
 		} else {
 			errorView?.isHidden = false
 		}

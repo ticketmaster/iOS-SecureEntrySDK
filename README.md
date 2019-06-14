@@ -100,13 +100,12 @@ This method is used to apply a ticket's 'secure token' to the view. This will tr
 
 ```swift
 // set the token on the view 
-secureEntryView.setToken(token: String)
-secureEntryView.setToken(token: String, errorText: String)
+secureEntryView.setToken(token: theNewToken, errorText: theErrorText)
 ```
 
 ##### Parameters
 - **token** _(String)_: The token object obtained when fetching the user's tickets.
-- **errorText** _(String)_: An optional error message to display when an error occurs processing the provided token.
+- **errorText** _(String)_: Sets a custom text string to display when an error occurs with the provided secure token.
 
 ---
 
@@ -117,7 +116,7 @@ secureEntryView.setToken(token: String, errorText: String)
 Sets the branding color to the specified color value. This color is typically associated with a particular brand or team. Currently the branding color affects only the animation.
 
 ```swift
-secureEntryView.setBrandingColor(color: UIColor)
+secureEntryView.setBrandingColor(color: theBrandingColor)
 ```
 
 ##### Parameters
@@ -125,21 +124,40 @@ secureEntryView.setBrandingColor(color: UIColor)
 
 ---
 
-### Custom error handling
+### Change the branding color
 
-#### `showError`
+#### `setPdf417Subtitle`
 
-Shows a custom error string to display within the view (this may be any arbitrary error provided by the client app).
+Creates a custom subtitle for the pdf417 variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
 
 ```swift
-secureEntryView.showError(text: String)
-secureEntryView.showError(text: String, icon: UIImage)
+secureEntryView.setPdf417Subtitle(subtitleText: theSubtitleText)
 ```
 
 ##### Parameters
-- **text** _(String)_: The text to display when an error occurs.
-- **icon** _(String)_: An optional icon to display along with the error. If none provided a default icon will be used.
+- **subtitleText** _(String)_: The text that will be displayed below the PDF417 barcode.
 
+#### `setQrCodeSubtitle`
+
+Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
+
+```swift
+secureEntryView.setQrCodeSubtitle(subtitleText: theSubtitleText)
+```
+
+##### Parameters
+- **subtitleText** _(String)_: The text that will be displayed below the QR barcode.
+
+#### `enableBrandedSubtitle`
+
+Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
+
+```swift
+secureEntryView.enableBrandedSubtitle(enable: enabledValue)
+```
+
+##### Parameters
+- **enable** _(Bool)_: Allows branding color on subtitle text to be enabled.
 
 ## Acknowledgements
 

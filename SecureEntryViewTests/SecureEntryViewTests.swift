@@ -41,7 +41,55 @@ private final class SecureEntryViewTests: XCTestCase {
 		// then
 		XCTAssertEqual(secureEntryView.brandingColor, UIColor.purple)
 	}
+    
+    func test_setBarcodeSubtitle_Should_Set_BarcodeSubtitle() {
+        let secureEntryView: SecureEntryView = SecureEntryView()
+        
+        // when
+        secureEntryView.setPdf417Subtitle(subtitleText: "Screenshots are a no go!")
+        secureEntryView.setQrCodeSubtitle(subtitleText: "Screenshots are a no go!")
+        
+        //then
+        XCTAssertEqual(secureEntryView.pdf417BarcodeSubtitle, "Screenshots are a no go!")
+        XCTAssertEqual(secureEntryView.qrBarcodeSubtitle, "Screenshots are a no go!")
+    }
+    
+    func test_setBarcodeSubtitle_Blank_Should_Set_BarcodeSubtitleBlank() {
+        let secureEntryView: SecureEntryView = SecureEntryView()
+        
+        //when
+        secureEntryView.setPdf417Subtitle(subtitleText: "")
+        secureEntryView.setQrCodeSubtitle(subtitleText: "")
+
+        //then
+        XCTAssertTrue(secureEntryView.pdf417BarcodeSubtitle.isEmpty)
+        XCTAssertTrue(secureEntryView.pdf417BarcodeSubtitleBlank)
+        XCTAssertTrue(secureEntryView.qrBarcodeSubtitle.isEmpty)
+        XCTAssertTrue(secureEntryView.qrBarcodeSubtitleBlank)
+        
+    }
 	
+    func test_enableBrandingSubtitle_Should_Be_Colored() {
+        let secureEntryView: SecureEntryView = SecureEntryView()
+        
+        //when
+        secureEntryView.setBrandingColor(color: UIColor.purple)
+        secureEntryView.enableBrandedSubtitle(enable: true)
+        
+        //then
+        XCTAssertEqual(secureEntryView.qrSubtitleLabel?.textColor, UIColor.purple)
+    }
+    
+    func test_enableBrandinSubtitle_False_Should_Be_Default_Color(){
+        let secureEntryView: SecureEntryView = SecureEntryView()
+        
+        //when
+        secureEntryView.setBrandingColor(color: UIColor.purple)
+        
+        //then
+        XCTAssertEqual(secureEntryView.qrSubtitleLabel?.textColor, #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1))
+    }
+    
 	func test_setErrorMessage_Should_Show_ErrorMessage() {
 		let secureEntryView: SecureEntryView = SecureEntryView()
 		
