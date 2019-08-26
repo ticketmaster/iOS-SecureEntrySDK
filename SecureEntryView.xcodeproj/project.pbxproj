@@ -99,6 +99,18 @@
 		04C939FC21C484790041DAB5 /* EntryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C939F821C484790041DAB5 /* EntryData.swift */; };
 		04C939FD21C484790041DAB5 /* SecureEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C939F921C484790041DAB5 /* SecureEntryView.swift */; };
 		AA5199A8220529920066D0B8 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA5199A7220529920066D0B8 /* Media.xcassets */; };
+		BE1749FA22CF55F300B57943 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1749F922CF55F300B57943 /* ErrorView.swift */; };
+		BE1749FC22CF560C00B57943 /* ScanAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1749FB22CF560C00B57943 /* ScanAnimationView.swift */; };
+		BE2E0E8E22D753B100FD2F09 /* SecureEntryView+Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E0E8D22D753B100FD2F09 /* SecureEntryView+Clock.swift */; };
+		BE2E0E9022D766D600FD2F09 /* SecureEntryView+Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E0E8F22D766D600FD2F09 /* SecureEntryView+Deprecations.swift */; };
+		BE36F95622CF45EB009E10E1 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE36F95522CF45EB009E10E1 /* UIColor+Hex.swift */; };
+		BE36F95B22CF463A009E10E1 /* UIColor+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE36F95A22CF463A009E10E1 /* UIColor+Colors.swift */; };
+		BE6FDBB322D3663500E39BB7 /* UIImage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6FDBB222D3663500E39BB7 /* UIImage+Images.swift */; };
+		BE6FDBB522D3686900E39BB7 /* String+Truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6FDBB422D3686900E39BB7 /* String+Truncate.swift */; };
+		BE6FDBB722D36B5D00E39BB7 /* UIApplication+NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6FDBB622D36B5D00E39BB7 /* UIApplication+NotificationNames.swift */; };
+		BE6FDBBC22D3A02C00E39BB7 /* SecureEntryView.State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6FDBBB22D3A02C00E39BB7 /* SecureEntryView.State.swift */; };
+		BEA6824622D53E6F005A4179 /* RatioImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6824522D53E6F005A4179 /* RatioImageView.swift */; };
+		BEA6824C22D5E3F7005A4179 /* SubtitledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6824B22D5E3F7005A4179 /* SubtitledView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +225,18 @@
 		04C93A0021C871110041DAB5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		04C93A0321C87E320041DAB5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AA5199A7220529920066D0B8 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		BE1749F922CF55F300B57943 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		BE1749FB22CF560C00B57943 /* ScanAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanAnimationView.swift; sourceTree = "<group>"; };
+		BE2E0E8D22D753B100FD2F09 /* SecureEntryView+Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureEntryView+Clock.swift"; sourceTree = "<group>"; };
+		BE2E0E8F22D766D600FD2F09 /* SecureEntryView+Deprecations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureEntryView+Deprecations.swift"; sourceTree = "<group>"; };
+		BE36F95522CF45EB009E10E1 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		BE36F95A22CF463A009E10E1 /* UIColor+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Colors.swift"; sourceTree = "<group>"; };
+		BE6FDBB222D3663500E39BB7 /* UIImage+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Images.swift"; sourceTree = "<group>"; };
+		BE6FDBB422D3686900E39BB7 /* String+Truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Truncate.swift"; sourceTree = "<group>"; };
+		BE6FDBB622D36B5D00E39BB7 /* UIApplication+NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+NotificationNames.swift"; sourceTree = "<group>"; };
+		BE6FDBBB22D3A02C00E39BB7 /* SecureEntryView.State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureEntryView.State.swift; sourceTree = "<group>"; };
+		BEA6824522D53E6F005A4179 /* RatioImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatioImageView.swift; sourceTree = "<group>"; };
+		BEA6824B22D5E3F7005A4179 /* SubtitledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitledView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,13 +263,14 @@
 			children = (
 				04C93A0321C87E320041DAB5 /* LICENSE */,
 				04C939FE21C86F840041DAB5 /* README.md */,
-				04C9393921C484180041DAB5 /* OTP */,
-				04910D1E21B1F5CB005F9D34 /* SecureEntryView */,
+				04910D1E21B1F5CB005F9D34 /* Source */,
 				04910D2921B1F5CB005F9D34 /* SecureEntryViewTests */,
 				04910D1D21B1F5CB005F9D34 /* Products */,
 				4C13563F00494D01373D9FF8 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		04910D1D21B1F5CB005F9D34 /* Products */ = {
 			isa = PBXGroup;
@@ -256,18 +281,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		04910D1E21B1F5CB005F9D34 /* SecureEntryView */ = {
+		04910D1E21B1F5CB005F9D34 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				AA5199A7220529920066D0B8 /* Media.xcassets */,
-				04910EB521B8AA02005F9D34 /* module.modulemap */,
-				04C939F821C484790041DAB5 /* EntryData.swift */,
-				04910D2021B1F5CB005F9D34 /* Info.plist */,
-				04C939F721C484790041DAB5 /* Keychain.swift */,
-				04C939F621C484790041DAB5 /* SecureEntryView.h */,
 				04C939F921C484790041DAB5 /* SecureEntryView.swift */,
+				BE6FDBBB22D3A02C00E39BB7 /* SecureEntryView.State.swift */,
+				BE2E0E8D22D753B100FD2F09 /* SecureEntryView+Clock.swift */,
+				BE2E0E8F22D766D600FD2F09 /* SecureEntryView+Deprecations.swift */,
+				BE1749F622CF556200B57943 /* Application Support */,
+				BE1749F822CF55E400B57943 /* Components */,
+				BE36F95422CF45DF009E10E1 /* Extensions */,
+				BE36F95D22CF4720009E10E1 /* Externals */,
+				BE1749F722CF557900B57943 /* Models */,
+				BE36F95C22CF46C7009E10E1 /* Resources */,
 			);
-			path = SecureEntryView;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		04910D2921B1F5CB005F9D34 /* SecureEntryViewTests */ = {
@@ -279,16 +307,7 @@
 			path = SecureEntryViewTests;
 			sourceTree = "<group>";
 		};
-		04C9393921C484180041DAB5 /* OTP */ = {
-			isa = PBXGroup;
-			children = (
-				04C9393A21C484180041DAB5 /* TMSwiftOTP */,
-				04C9394721C484180041DAB5 /* 3rdParty */,
-			);
-			path = OTP;
-			sourceTree = "<group>";
-		};
-		04C9393A21C484180041DAB5 /* TMSwiftOTP */ = {
+		04C9393A21C484180041DAB5 /* SwiftOTP */ = {
 			isa = PBXGroup;
 			children = (
 				04C9394021C484180041DAB5 /* Base32 */,
@@ -296,7 +315,7 @@
 				04C9393E21C484180041DAB5 /* SwiftOTP.h */,
 				04C9393F21C484180041DAB5 /* TOTP.swift */,
 			);
-			path = TMSwiftOTP;
+			path = SwiftOTP;
 			sourceTree = "<group>";
 		};
 		04C9394021C484180041DAB5 /* Base32 */ = {
@@ -306,25 +325,6 @@
 				04C9394221C484180041DAB5 /* StringExtension.swift */,
 			);
 			path = Base32;
-			sourceTree = "<group>";
-		};
-		04C9394721C484180041DAB5 /* 3rdParty */ = {
-			isa = PBXGroup;
-			children = (
-				04C9394821C484180041DAB5 /* NTPPacket.swift */,
-				04C9394921C484180041DAB5 /* Clock.swift */,
-				04C9394A21C484180041DAB5 /* TimeFreeze.swift */,
-				04C9394B21C484180041DAB5 /* InternetAddress.swift */,
-				04C9394C21C484180041DAB5 /* NTPClient.swift */,
-				04C9394D21C484180041DAB5 /* Data+Bytes.swift */,
-				04C9394E21C484180041DAB5 /* CryptoSwift */,
-				04C9399921C484180041DAB5 /* DNSResolver.swift */,
-				04C9399A21C484180041DAB5 /* TimeStorage.swift */,
-				04C9399B21C484180041DAB5 /* NTPProtocol.swift */,
-				04C9399C21C484180041DAB5 /* NSTimer+ClosureKit.swift */,
-				045F8E93220D15100096EEBF /* UIImage+Gif.swift */,
-			);
-			path = 3rdParty;
 			sourceTree = "<group>";
 		};
 		04C9394E21C484180041DAB5 /* CryptoSwift */ = {
@@ -445,6 +445,92 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BE1749F622CF556200B57943 /* Application Support */ = {
+			isa = PBXGroup;
+			children = (
+				04C939F621C484790041DAB5 /* SecureEntryView.h */,
+				04910D2021B1F5CB005F9D34 /* Info.plist */,
+				04910EB521B8AA02005F9D34 /* module.modulemap */,
+			);
+			name = "Application Support";
+			sourceTree = "<group>";
+		};
+		BE1749F722CF557900B57943 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04C939F821C484790041DAB5 /* EntryData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE1749F822CF55E400B57943 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BE1749F922CF55F300B57943 /* ErrorView.swift */,
+				BEA6824B22D5E3F7005A4179 /* SubtitledView.swift */,
+				BE1749FB22CF560C00B57943 /* ScanAnimationView.swift */,
+				BEA6824522D53E6F005A4179 /* RatioImageView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BE36F95422CF45DF009E10E1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BE6FDBB222D3663500E39BB7 /* UIImage+Images.swift */,
+				BE36F95A22CF463A009E10E1 /* UIColor+Colors.swift */,
+				BE36F95522CF45EB009E10E1 /* UIColor+Hex.swift */,
+				BE6FDBB422D3686900E39BB7 /* String+Truncate.swift */,
+				BE6FDBB622D36B5D00E39BB7 /* UIApplication+NotificationNames.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BE36F95C22CF46C7009E10E1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA5199A7220529920066D0B8 /* Media.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BE36F95D22CF4720009E10E1 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				04C939F721C484790041DAB5 /* Keychain.swift */,
+				BE36F95F22CF4773009E10E1 /* Kronos */,
+				BE36F95E22CF475B009E10E1 /* SwiftGif */,
+				04C9394E21C484180041DAB5 /* CryptoSwift */,
+				04C9393A21C484180041DAB5 /* SwiftOTP */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		BE36F95E22CF475B009E10E1 /* SwiftGif */ = {
+			isa = PBXGroup;
+			children = (
+				045F8E93220D15100096EEBF /* UIImage+Gif.swift */,
+			);
+			path = SwiftGif;
+			sourceTree = "<group>";
+		};
+		BE36F95F22CF4773009E10E1 /* Kronos */ = {
+			isa = PBXGroup;
+			children = (
+				04C9394D21C484180041DAB5 /* Data+Bytes.swift */,
+				04C9394821C484180041DAB5 /* NTPPacket.swift */,
+				04C9394921C484180041DAB5 /* Clock.swift */,
+				04C9394A21C484180041DAB5 /* TimeFreeze.swift */,
+				04C9394B21C484180041DAB5 /* InternetAddress.swift */,
+				04C9394C21C484180041DAB5 /* NTPClient.swift */,
+				04C9399921C484180041DAB5 /* DNSResolver.swift */,
+				04C9399A21C484180041DAB5 /* TimeStorage.swift */,
+				04C9399C21C484180041DAB5 /* NSTimer+ClosureKit.swift */,
+				04C9399B21C484180041DAB5 /* NTPProtocol.swift */,
+			);
+			path = Kronos;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -508,7 +594,7 @@
 				TargetAttributes = {
 					04910D1B21B1F5CB005F9D34 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 					04910D2421B1F5CB005F9D34 = {
 						CreatedOnToolsVersion = 10.1;
@@ -521,6 +607,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 04910D1221B1F5CB005F9D34;
 			productRefGroup = 04910D1D21B1F5CB005F9D34 /* Products */;
@@ -563,6 +650,7 @@
 				04C939BA21C484190041DAB5 /* UInt32+Extension.swift in Sources */,
 				04C939E721C484190041DAB5 /* RandomAccessBlockModeWorker.swift in Sources */,
 				04C939CF21C484190041DAB5 /* SHA3.swift in Sources */,
+				BEA6824C22D5E3F7005A4179 /* SubtitledView.swift in Sources */,
 				04C939A121C484190041DAB5 /* Base32.swift in Sources */,
 				04C939C121C484190041DAB5 /* HMAC+Foundation.swift in Sources */,
 				04C939A821C484190041DAB5 /* TimeFreeze.swift in Sources */,
@@ -571,6 +659,7 @@
 				04C9399D21C484190041DAB5 /* Generator.swift in Sources */,
 				04C939CB21C484190041DAB5 /* SecureBytes.swift in Sources */,
 				045F8E94220D15100096EEBF /* UIImage+Gif.swift in Sources */,
+				BE6FDBB522D3686900E39BB7 /* String+Truncate.swift in Sources */,
 				04C939E321C484190041DAB5 /* PBKDF1.swift in Sources */,
 				04C939BB21C484190041DAB5 /* Digest.swift in Sources */,
 				04C939A221C484190041DAB5 /* StringExtension.swift in Sources */,
@@ -579,12 +668,16 @@
 				04C939D121C484190041DAB5 /* RandomBytesSequence.swift in Sources */,
 				04C939D321C484190041DAB5 /* SHA1.swift in Sources */,
 				04C939AE21C484190041DAB5 /* Cryptors.swift in Sources */,
+				BE6FDBB722D36B5D00E39BB7 /* UIApplication+NotificationNames.swift in Sources */,
 				04C939D921C484190041DAB5 /* Utils.swift in Sources */,
 				04C939F121C484190041DAB5 /* Array+Extension.swift in Sources */,
+				BE1749FA22CF55F300B57943 /* ErrorView.swift in Sources */,
+				BE2E0E8E22D753B100FD2F09 /* SecureEntryView+Clock.swift in Sources */,
 				04C939F221C484190041DAB5 /* DNSResolver.swift in Sources */,
 				04C939C421C484190041DAB5 /* Array+Foundation.swift in Sources */,
 				04C939E421C484190041DAB5 /* BlockModeOptions.swift in Sources */,
 				04C939E221C484190041DAB5 /* PBKDF2.swift in Sources */,
+				BE2E0E9022D766D600FD2F09 /* SecureEntryView+Deprecations.swift in Sources */,
 				04C939C721C484190041DAB5 /* UInt8+Extension.swift in Sources */,
 				04C939B421C484190041DAB5 /* AES.Cryptors.swift in Sources */,
 				04C939B321C484190041DAB5 /* Int+Extension.swift in Sources */,
@@ -596,6 +689,7 @@
 				04C939F521C484190041DAB5 /* NSTimer+ClosureKit.swift in Sources */,
 				04C939DA21C484190041DAB5 /* Generics.swift in Sources */,
 				04C939B021C484190041DAB5 /* Cipher.swift in Sources */,
+				BE1749FC22CF560C00B57943 /* ScanAnimationView.swift in Sources */,
 				04C939F321C484190041DAB5 /* TimeStorage.swift in Sources */,
 				04C939EF21C484190041DAB5 /* ChaCha20.swift in Sources */,
 				04C939C021C484190041DAB5 /* Utils+Foundation.swift in Sources */,
@@ -605,6 +699,7 @@
 				04C939CC21C484190041DAB5 /* ZeroPadding.swift in Sources */,
 				04C939E021C484190041DAB5 /* PKCS5.swift in Sources */,
 				04C939EA21C484190041DAB5 /* BlockModeWorker.swift in Sources */,
+				BE36F95622CF45EB009E10E1 /* UIColor+Hex.swift in Sources */,
 				04C939E921C484190041DAB5 /* PCBC.swift in Sources */,
 				04C939E821C484190041DAB5 /* ECB.swift in Sources */,
 				04C939AA21C484190041DAB5 /* NTPClient.swift in Sources */,
@@ -618,6 +713,7 @@
 				04C939A021C484190041DAB5 /* TOTP.swift in Sources */,
 				04C939A621C484190041DAB5 /* NTPPacket.swift in Sources */,
 				04C939EE21C484190041DAB5 /* OFB.swift in Sources */,
+				BE6FDBB322D3663500E39BB7 /* UIImage+Images.swift in Sources */,
 				04C939F421C484190041DAB5 /* NTPProtocol.swift in Sources */,
 				04C939DF21C484190041DAB5 /* PKCS7Padding.swift in Sources */,
 				04C939E121C484190041DAB5 /* PKCS7.swift in Sources */,
@@ -626,16 +722,19 @@
 				04C939FC21C484790041DAB5 /* EntryData.swift in Sources */,
 				04C939B921C484190041DAB5 /* Collection+Extension.swift in Sources */,
 				04C939E521C484190041DAB5 /* CFB.swift in Sources */,
+				BEA6824622D53E6F005A4179 /* RatioImageView.swift in Sources */,
 				04C939AC21C484190041DAB5 /* AES.swift in Sources */,
 				04C939C521C484190041DAB5 /* AES+Foundation.swift in Sources */,
 				04C939B721C484190041DAB5 /* CMAC.swift in Sources */,
 				04C939A921C484190041DAB5 /* InternetAddress.swift in Sources */,
 				04C939D221C484190041DAB5 /* Rabbit.swift in Sources */,
 				04C939FD21C484790041DAB5 /* SecureEntryView.swift in Sources */,
+				BE6FDBBC22D3A02C00E39BB7 /* SecureEntryView.State.swift in Sources */,
 				04C939B221C484190041DAB5 /* AEAD.swift in Sources */,
 				04C939AF21C484190041DAB5 /* HKDF.swift in Sources */,
 				04C939BE21C484190041DAB5 /* String+FoundationExtension.swift in Sources */,
 				04C939D821C484190041DAB5 /* DigestType.swift in Sources */,
+				BE36F95B22CF463A009E10E1 /* UIColor+Colors.swift in Sources */,
 				04C939C821C484190041DAB5 /* MD5.swift in Sources */,
 				04C939B521C484190041DAB5 /* Bit.swift in Sources */,
 				04C939AD21C484190041DAB5 /* UInt64+Extension.swift in Sources */,
@@ -719,7 +818,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
+				MODULEMAP_FILE = "$(SRCROOT)/Source/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -744,7 +843,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SecureEntryView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -839,7 +938,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
+				MODULEMAP_FILE = "$(SRCROOT)/Source/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -899,7 +998,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MODULEMAP_FILE = "$(SRCROOT)/SecureEntryView/module.modulemap";
+				MODULEMAP_FILE = "$(SRCROOT)/Source/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -924,7 +1023,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SecureEntryView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -958,7 +1057,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SecureEntryView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

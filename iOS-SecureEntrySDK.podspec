@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "iOS-SecureEntrySDK"
-  spec.version      = "1.0.6"
+  spec.version      = "1.0.8"
   spec.summary      = "TicketMaster iOS-SecureEntrySDK."
 
   spec.description  = "The SecureEntrySDK allows 3rd party apps and services to display Ticketmaster users’ secured tickets"

@@ -1,0 +1,8 @@
+
+framework module Presence {
+	
+	umbrella header "SecureEntryView.h"
+	
+	export *
+	module * {export *}
+}

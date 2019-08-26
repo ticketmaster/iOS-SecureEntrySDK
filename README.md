@@ -62,7 +62,7 @@ import Presence
 ...
 
 var secureEntryView = Presence.SecureEntryView(frame: frameRect)
-self.addSubview(secureEntryView)
+addSubview(secureEntryView)
 ```
 
 ---
@@ -77,46 +77,45 @@ Since the `SecureEntryView` inherits from a standard `UIView`, you may use any m
 
 ### Syncing the time
 
-#### `SecureEntryView.syncTime`
+#### `static func syncTime(force: Bool = false, completion: ((_ synced: Bool) -> Void)? = nil)`
 
 This method is used to begin a background time sync. This method is provided to allow apps to initiate a time sync before a `SecureEntryView` is ever instantiated/displayed.
+
+Perform a fresh time sync as close to app launch as possible.
+
+Perform a fresh time sync prior to rendering SecureEntryView. If multiple are shown at the same time, such as in a collection or scroll view, this only needs to be done once for that container view; not each SecureEntryView instance.
 
 **Note:** This is a static/singleton method, and must be called on the SecureEntryView class, and not a class instance.
 
 ```swift
 // Initiates a background time sync 
-SecureEntryView.syncTime()
+SecureEntryView.syncTime(force: true)
 ```
 
 ---
 
 ### Applying the token
 
-#### `setToken`
+#### `var token: String?`
 
-This method is used to apply a ticket's 'secure token' to the view. This will trigger a re-render of the view using the new token's data.
+This property is used to apply a ticket's 'secure token' to the view. This will trigger a re-render of the view using the new token's data.
 
-**Note:** You must call this method otherwise the view will remain blank/empty.
+**Note:** You must set this value otherwise the view will show loading animation.
 
 ```swift
 // set the token on the view 
-secureEntryView.setToken(token: theNewToken, errorText: theErrorText)
+secureEntryView.token = theNewToken
 ```
-
-##### Parameters
-- **token** _(String)_: The token object obtained when fetching the user's tickets.
-- **errorText** _(String)_: Sets a custom text string to display when an error occurs with the provided secure token.
-
 ---
 
 ### Change the branding color
 
-#### `setBrandingColor`
+#### `var brandingColor: UIColor = .blue`
 
 Sets the branding color to the specified color value. This color is typically associated with a particular brand or team. Currently the branding color affects only the animation.
 
 ```swift
-secureEntryView.setBrandingColor(color: theBrandingColor)
+secureEntryView.brandingColor = theBrandingColor
 ```
 
 ##### Parameters
@@ -126,38 +125,35 @@ secureEntryView.setBrandingColor(color: theBrandingColor)
 
 ### Change the branding color
 
-#### `setPdf417Subtitle`
+#### `var pdf417Subtitle: String = "Screenshots are not accepted for entry"`
 
 Creates a custom subtitle for the pdf417 variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
 
 ```swift
-secureEntryView.setPdf417Subtitle(subtitleText: theSubtitleText)
+secureEntryView.pdf417Subtitle = theSubtitleText
 ```
 
 ##### Parameters
 - **subtitleText** _(String)_: The text that will be displayed below the PDF417 barcode.
 
-#### `setQrCodeSubtitle`
+#### `var qrSubtitle: String = "Screenshots are not accepted for entry"`
 
 Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
 
 ```swift
-secureEntryView.setQrCodeSubtitle(subtitleText: theSubtitleText)
+secureEntryView.qrSubtitle = theSubtitleText
 ```
 
 ##### Parameters
 - **subtitleText** _(String)_: The text that will be displayed below the QR barcode.
 
-#### `enableBrandedSubtitle`
+#### `var isSubtitleBrandingEnabled: Bool = false`
 
-Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
+If set to `true` the subtitles will use the branding color instead of the default black color.
 
 ```swift
-secureEntryView.enableBrandedSubtitle(enable: enabledValue)
+secureEntryView.isSubtitleBrandingEnabled = true
 ```
-
-##### Parameters
-- **enable** _(Bool)_: Allows branding color on subtitle text to be enabled.
 
 ## Acknowledgements
 

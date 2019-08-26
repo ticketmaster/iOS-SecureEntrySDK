@@ -11,8 +11,6 @@
 		04772B4921E564A9005E08D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04772B4721E564A9005E08D6 /* Main.storyboard */; };
 		04772B4E21E564B1005E08D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04772B4D21E564B1005E08D6 /* Assets.xcassets */; };
 		04772B5121E564B1005E08D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04772B4F21E564B1005E08D6 /* LaunchScreen.storyboard */; };
-		04772B5C21E564B1005E08D6 /* SecureEntryView_SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04772B5B21E564B1005E08D6 /* SecureEntryView_SampleTests.swift */; };
-		04772B6721E564B1005E08D6 /* SecureEntryView_SampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04772B6621E564B1005E08D6 /* SecureEntryView_SampleUITests.swift */; };
 		AA15068F21E967D0008A0AEB /* Presence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA15068C21E967B9008A0AEB /* Presence.framework */; };
 		AA15069021E967D0008A0AEB /* Presence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA15068C21E967B9008A0AEB /* Presence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA15069421E9703D008A0AEB /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA15069321E9703D008A0AEB /* RotatingViewController.swift */; };
@@ -20,20 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		04772B5821E564B1005E08D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04772B3821E564A9005E08D6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04772B3F21E564A9005E08D6;
-			remoteInfo = "SecureEntryView-Sample";
-		};
-		04772B6321E564B1005E08D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04772B3821E564A9005E08D6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04772B3F21E564A9005E08D6;
-			remoteInfo = "SecureEntryView-Sample";
-		};
 		AA15068B21E967B9008A0AEB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA15068621E967B9008A0AEB /* SecureEntryView.xcodeproj */;
@@ -78,12 +62,6 @@
 		04772B4D21E564B1005E08D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04772B5021E564B1005E08D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04772B5221E564B1005E08D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04772B5721E564B1005E08D6 /* SecureEntryView-SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SecureEntryView-SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		04772B5B21E564B1005E08D6 /* SecureEntryView_SampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureEntryView_SampleTests.swift; sourceTree = "<group>"; };
-		04772B5D21E564B1005E08D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04772B6221E564B1005E08D6 /* SecureEntryView-SampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SecureEntryView-SampleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		04772B6621E564B1005E08D6 /* SecureEntryView_SampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureEntryView_SampleUITests.swift; sourceTree = "<group>"; };
-		04772B6821E564B1005E08D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA15068621E967B9008A0AEB /* SecureEntryView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SecureEntryView.xcodeproj; path = ../../SecureEntryView.xcodeproj; sourceTree = "<group>"; };
 		AA15069321E9703D008A0AEB /* RotatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		AA15069521E9704C008A0AEB /* StaticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticViewController.swift; sourceTree = "<group>"; };
@@ -98,20 +76,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04772B5421E564B1005E08D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04772B5F21E564B1005E08D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -119,19 +83,17 @@
 			isa = PBXGroup;
 			children = (
 				04772B4221E564A9005E08D6 /* SecureEntryView-Sample */,
-				04772B5A21E564B1005E08D6 /* SecureEntryView-SampleTests */,
-				04772B6521E564B1005E08D6 /* SecureEntryView-SampleUITests */,
 				04772B4121E564A9005E08D6 /* Products */,
 				04772B7D21E56606005E08D6 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		04772B4121E564A9005E08D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				04772B4021E564A9005E08D6 /* SecureEntryView-Sample.app */,
-				04772B5721E564B1005E08D6 /* SecureEntryView-SampleTests.xctest */,
-				04772B6221E564B1005E08D6 /* SecureEntryView-SampleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,24 +111,6 @@
 				AA15069521E9704C008A0AEB /* StaticViewController.swift */,
 			);
 			path = "SecureEntryView-Sample";
-			sourceTree = "<group>";
-		};
-		04772B5A21E564B1005E08D6 /* SecureEntryView-SampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				04772B5B21E564B1005E08D6 /* SecureEntryView_SampleTests.swift */,
-				04772B5D21E564B1005E08D6 /* Info.plist */,
-			);
-			path = "SecureEntryView-SampleTests";
-			sourceTree = "<group>";
-		};
-		04772B6521E564B1005E08D6 /* SecureEntryView-SampleUITests */ = {
-			isa = PBXGroup;
-			children = (
-				04772B6621E564B1005E08D6 /* SecureEntryView_SampleUITests.swift */,
-				04772B6821E564B1005E08D6 /* Info.plist */,
-			);
-			path = "SecureEntryView-SampleUITests";
 			sourceTree = "<group>";
 		};
 		04772B7D21E56606005E08D6 /* Frameworks */ = {
@@ -207,42 +151,6 @@
 			productReference = 04772B4021E564A9005E08D6 /* SecureEntryView-Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		04772B5621E564B1005E08D6 /* SecureEntryView-SampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 04772B6E21E564B1005E08D6 /* Build configuration list for PBXNativeTarget "SecureEntryView-SampleTests" */;
-			buildPhases = (
-				04772B5321E564B1005E08D6 /* Sources */,
-				04772B5421E564B1005E08D6 /* Frameworks */,
-				04772B5521E564B1005E08D6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				04772B5921E564B1005E08D6 /* PBXTargetDependency */,
-			);
-			name = "SecureEntryView-SampleTests";
-			productName = "SecureEntryView-SampleTests";
-			productReference = 04772B5721E564B1005E08D6 /* SecureEntryView-SampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		04772B6121E564B1005E08D6 /* SecureEntryView-SampleUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 04772B7121E564B1005E08D6 /* Build configuration list for PBXNativeTarget "SecureEntryView-SampleUITests" */;
-			buildPhases = (
-				04772B5E21E564B1005E08D6 /* Sources */,
-				04772B5F21E564B1005E08D6 /* Frameworks */,
-				04772B6021E564B1005E08D6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				04772B6421E564B1005E08D6 /* PBXTargetDependency */,
-			);
-			name = "SecureEntryView-SampleUITests";
-			productName = "SecureEntryView-SampleUITests";
-			productReference = 04772B6221E564B1005E08D6 /* SecureEntryView-SampleUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -255,14 +163,7 @@
 				TargetAttributes = {
 					04772B3F21E564A9005E08D6 = {
 						CreatedOnToolsVersion = 10.1;
-					};
-					04772B5621E564B1005E08D6 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = 04772B3F21E564A9005E08D6;
-					};
-					04772B6121E564B1005E08D6 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = 04772B3F21E564A9005E08D6;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -286,8 +187,6 @@
 			projectRoot = "";
 			targets = (
 				04772B3F21E564A9005E08D6 /* SecureEntryView-Sample */,
-				04772B5621E564B1005E08D6 /* SecureEntryView-SampleTests */,
-				04772B6121E564B1005E08D6 /* SecureEntryView-SampleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -320,20 +219,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04772B5521E564B1005E08D6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04772B6021E564B1005E08D6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -347,35 +232,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04772B5321E564B1005E08D6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04772B5C21E564B1005E08D6 /* SecureEntryView_SampleTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04772B5E21E564B1005E08D6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				04772B6721E564B1005E08D6 /* SecureEntryView_SampleUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		04772B5921E564B1005E08D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04772B3F21E564A9005E08D6 /* SecureEntryView-Sample */;
-			targetProxy = 04772B5821E564B1005E08D6 /* PBXContainerItemProxy */;
-		};
-		04772B6421E564B1005E08D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04772B3F21E564A9005E08D6 /* SecureEntryView-Sample */;
-			targetProxy = 04772B6321E564B1005E08D6 /* PBXContainerItemProxy */;
-		};
 		AA15069221E967D0008A0AEB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SecureEntryView;
@@ -557,88 +416,6 @@
 			};
 			name = Release;
 		};
-		04772B6F21E564B1005E08D6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A6W445CNR;
-				INFOPLIST_FILE = "SecureEntryView-SampleTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ticketmaster.presence.secureentryview.sample.SecureEntryView-SampleTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SecureEntryView-Sample.app/SecureEntryView-Sample";
-			};
-			name = Debug;
-		};
-		04772B7021E564B1005E08D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A6W445CNR;
-				INFOPLIST_FILE = "SecureEntryView-SampleTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ticketmaster.presence.secureentryview.sample.SecureEntryView-SampleTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SecureEntryView-Sample.app/SecureEntryView-Sample";
-			};
-			name = Release;
-		};
-		04772B7221E564B1005E08D6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A6W445CNR;
-				INFOPLIST_FILE = "SecureEntryView-SampleUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ticketmaster.presence.secureentryview.sample.SecureEntryView-SampleUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "SecureEntryView-Sample";
-			};
-			name = Debug;
-		};
-		04772B7321E564B1005E08D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A6W445CNR;
-				INFOPLIST_FILE = "SecureEntryView-SampleUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ticketmaster.presence.secureentryview.sample.SecureEntryView-SampleUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "SecureEntryView-Sample";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -656,24 +433,6 @@
 			buildConfigurations = (
 				04772B6C21E564B1005E08D6 /* Debug */,
 				04772B6D21E564B1005E08D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		04772B6E21E564B1005E08D6 /* Build configuration list for PBXNativeTarget "SecureEntryView-SampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				04772B6F21E564B1005E08D6 /* Debug */,
-				04772B7021E564B1005E08D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		04772B7121E564B1005E08D6 /* Build configuration list for PBXNativeTarget "SecureEntryView-SampleUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				04772B7221E564B1005E08D6 /* Debug */,
-				04772B7321E564B1005E08D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
