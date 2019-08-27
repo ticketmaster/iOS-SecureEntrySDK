@@ -19,8 +19,8 @@ Pod::Spec.new do |spec|
 
   spec.swift_version = '4.2'
 
-  spec.resources = 'SecureEntryView/Media.xcassets'
-  spec.source_files  = "SecureEntryView/*.{h,swift}", "OTP/3rdParty/*.swift", "OTP/3rdParty/CryptoSwift/**/*.swift", "OTP/TMSwiftOTP/**/*.{h,swift}"
-  spec.exclude_files = "OTP/TMSwiftOTP/Tests/*"
+  spec.resources = 'Source/Resources/Media.xcassets'
+  spec.source_files  = "Source/**/*.{h,swift}"
+  spec.exclude_files = "Source/Externals/SwiftOTP/Tests/*"
 
 end
