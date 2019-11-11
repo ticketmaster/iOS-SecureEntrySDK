@@ -20,9 +20,8 @@ public extension SecureEntryView {
     pdf417Subtitle = subtitleText
   }
   
-  @available(*, deprecated, message: "Use qrSubtitle property instead")
+  @available(*, deprecated, message: "setQrCodeSubtitle has been deprecated and no longer has any functionality")
   func setQrCodeSubtitle(subtitleText: String) {
-    qrSubtitle = subtitleText
   }
   
   @available(*, deprecated, message: "Use isSubtitleBrandingEnabled property instead")
@@ -69,8 +68,8 @@ public extension SecureEntryView {
   @available(*, unavailable)
   @objc
   var qrBarcodeSubtitle: String {
-    get { return qrSubtitle }
-    set { qrSubtitle = newValue }
+    get { return "" }
+    set { }
   }
   
   @available(*, unavailable)
@@ -83,7 +82,28 @@ public extension SecureEntryView {
   @available(*, unavailable)
   @objc
   var brandSubtitleText: Bool {
-    get { return isSubtitleBrandingEnabled }
-    set { isSubtitleBrandingEnabled = newValue }
+    get { return false }
+    set { }
+  }
+  
+  @available(*, deprecated, message: "qrSubtitle has been deprecated and no longer has any functionality")
+  @objc
+   var qrSubtitle: String {
+    get { return "" }
+    set { }
+   }
+  
+  @available(*, deprecated, message: "brandingColor has been deprecated and no longer has any functionality")
+  @objc
+  var brandingColor: UIColor {
+    get { return .clear }
+    set { }
+  }
+  
+   @available(*, deprecated, message: "isSubtitleBrandingEnabled has been deprecated and no longer has any functionality")
+  @objc
+  var isSubtitleBrandingEnabled: Bool {
+    get { return false }
+    set { }
   }
 }

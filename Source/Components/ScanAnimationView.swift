@@ -35,13 +35,6 @@ final class ScanAnimationView: UIView {
     return view
   }()
   
-  override var tintColor: UIColor! {
-    didSet {
-      guard tintColor != oldValue else { return }
-      updateColors()
-    }
-  }
-  
   override var isHidden: Bool {
     didSet {
       guard isHidden != oldValue else { return }
@@ -113,13 +106,13 @@ final class ScanAnimationView: UIView {
   }
   
   func updateColors() {
-    boxView.backgroundColor = tintColor.withAlphaComponent(0.5)
-    lineView.backgroundColor = tintColor
+    boxView.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.4235294118, blue: 0.8745098039, alpha: 0.5)
+    lineView.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.4235294118, blue: 0.8745098039, alpha: 1)
   }
   
   @objc
   func updateAnimation() {
-    if window != nil && !isHidden {
+    if window != nil && !isHidden && !bounds.isEmpty {
       startAnimation()
     }
     else {
@@ -128,32 +121,39 @@ final class ScanAnimationView: UIView {
   }
   
   func startAnimation() {
-    let transform = CGAffineTransform(
-      translationX: bounds.size.width - boxView.bounds.size.width,
-      y: 0.0
-    )
-    
-    UIView.animate(
-      withDuration: 1.5,
-      delay: 0.4,
-      options: [.curveEaseInOut, .repeat, .autoreverse, .beginFromCurrentState],
-      animations: { self.boxView.transform = transform },
-      completion: nil
-    )
-    
-    UIView.animate(
-      withDuration: 1.5,
-      delay: 0.3,
-      options: [.curveEaseInOut, .repeat, .autoreverse, .beginFromCurrentState],
-      animations: { self.lineView.transform = transform },
-      completion: nil)
+    DispatchQueue.main.async { [weak self] in
+      guard let this = self else { return }
+      
+      let transform = CGAffineTransform(
+        translationX: this.bounds.size.width - this.boxView.bounds.size.width,
+        y: 0.0
+      )
+      
+      UIView.animate(
+        withDuration: 1.5,
+        delay: 0.4,
+        options: [.curveEaseInOut, .repeat, .autoreverse, .beginFromCurrentState],
+        animations: { this.boxView.transform = transform },
+        completion: nil
+      )
+      
+      UIView.animate(
+        withDuration: 1.5,
+        delay: 0.3,
+        options: [.curveEaseInOut, .repeat, .autoreverse, .beginFromCurrentState],
+        animations: { this.lineView.transform = transform },
+        completion: nil)
+    }
   }
   
   @objc
   func stopAnimation() {
-    boxView.transform = .identity
-    lineView.transform = .identity
-    boxView.layer.removeAllAnimations()
-    lineView.layer.removeAllAnimations()
+    DispatchQueue.main.async { [weak self] in
+      guard let this = self else { return }
+      this.boxView.transform = .identity
+      this.lineView.transform = .identity
+      this.boxView.layer.removeAllAnimations()
+      this.lineView.layer.removeAllAnimations()
+    }
   }
 }

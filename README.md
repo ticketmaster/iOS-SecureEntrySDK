@@ -108,24 +108,7 @@ secureEntryView.token = theNewToken
 ```
 ---
 
-### Change the branding color
-
-#### `var brandingColor: UIColor = .blue`
-
-Sets the branding color to the specified color value. This color is typically associated with a particular brand or team. Currently the branding color affects only the animation.
-
-```swift
-secureEntryView.brandingColor = theBrandingColor
-```
-
-##### Parameters
-- **color** _(UIColor)_: A color value to apply to the view.
-
----
-
-### Change the branding color
-
-#### `var pdf417Subtitle: String = "Screenshots are not accepted for entry"`
+#### `var pdf417Subtitle: String = "Screenshots won't get you in."`
 
 Creates a custom subtitle for the pdf417 variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
 
@@ -135,25 +118,6 @@ secureEntryView.pdf417Subtitle = theSubtitleText
 
 ##### Parameters
 - **subtitleText** _(String)_: The text that will be displayed below the PDF417 barcode.
-
-#### `var qrSubtitle: String = "Screenshots are not accepted for entry"`
-
-Creates a custom subtitle for the qr variant of the SafeTix ticket. Will truncate if longer than the frame. Note: If set to "", the barcode subtitle will be hidden.
-
-```swift
-secureEntryView.qrSubtitle = theSubtitleText
-```
-
-##### Parameters
-- **subtitleText** _(String)_: The text that will be displayed below the QR barcode.
-
-#### `var isSubtitleBrandingEnabled: Bool = false`
-
-If set to `true` the subtitles will use the branding color instead of the default black color.
-
-```swift
-secureEntryView.isSubtitleBrandingEnabled = true
-```
 
 ## Acknowledgements
 

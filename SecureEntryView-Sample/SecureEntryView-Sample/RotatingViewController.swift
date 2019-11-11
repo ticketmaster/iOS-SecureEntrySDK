@@ -25,8 +25,6 @@ class RotatingViewController: UIViewController {
   
   @IBOutlet var retViewNoText: SecureEntryView!
   
-  @IBOutlet var retViewBrandedText: SecureEntryView!
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -45,7 +43,6 @@ class RotatingViewController: UIViewController {
     
     // Scaled view, with a custom programatically controlled branding color (using V3 token)
     retViewSized.token = v3token
-    retViewSized.brandingColor = .green
     
     // Large view, rendered edge-to-edge (using v4 token)
     retViewFull.token = v4token
@@ -59,11 +56,5 @@ class RotatingViewController: UIViewController {
     // Scaled View, with no subtitle values for pdf417 or qr.
     retViewNoText.token = v4token
     retViewNoText.pdf417Subtitle = ""
-    retViewNoText.qrSubtitle = ""
-    
-    // Scaled View, with branded subtitle values for pdf417 or qr.
-    retViewBrandedText.token = v4token
-    retViewBrandedText.brandingColor = .red
-    retViewBrandedText.isSubtitleBrandingEnabled = true
   }
 }

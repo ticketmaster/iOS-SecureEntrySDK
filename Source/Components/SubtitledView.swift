@@ -23,6 +23,15 @@ import UIKit
 
 final class SubtitledView: UIView {
   
+  lazy var stackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [imageView, label])
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    stackView.axis = .vertical
+    stackView.alignment = .fill
+    stackView.spacing = 12.0
+    return stackView
+  }()
+  
   let imageView: RatioImageView = {
     let imageView = RatioImageView()
     imageView.isAccessibilityElement = true
@@ -36,12 +45,39 @@ final class SubtitledView: UIView {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.setContentCompressionResistancePriority(.defaultHigh + 1, for: .vertical)
     label.textColor = .mineShaft
-    label.font = .systemFont(ofSize: 10)
+    label.font = .systemFont(ofSize: 14, weight: .semibold)
     label.textAlignment = .center
     label.numberOfLines = 0
     return label
   }()
   
+  lazy var topContentConstraint: NSLayoutConstraint = stackView.topAnchor.constraint(
+    equalTo: topAnchor, constant: contentInsets.top
+  )
+  
+  lazy var leftContentConstraint: NSLayoutConstraint = stackView.leftAnchor.constraint(
+    equalTo: leftAnchor, constant: contentInsets.left
+  )
+  
+  lazy var bottomContentConstraint: NSLayoutConstraint = stackView.bottomAnchor.constraint(
+    equalTo: bottomAnchor, constant: -contentInsets.bottom
+  )
+  
+  lazy var rightContentConstraint: NSLayoutConstraint = stackView.rightAnchor.constraint(
+    equalTo: rightAnchor, constant: -contentInsets.right
+  )
+  
+  var contentInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0) {
+    didSet {
+      stackView.spacing = contentInsets.bottom
+
+      topContentConstraint.constant = contentInsets.top
+      leftContentConstraint.constant = contentInsets.left
+      bottomContentConstraint.constant = -contentInsets.bottom
+      rightContentConstraint.constant = -contentInsets.right
+    }
+  }
+
   init() {
     super.init(frame: .zero)
     setupView()
@@ -65,18 +101,13 @@ final class SubtitledView: UIView {
   }
   
   func addSubviews() {
-    addSubview(imageView)
-    addSubview(label)
+    addSubview(stackView)
   }
   
   func makeConstraints() {
-    imageView.topAnchor.constraint(equalTo: topAnchor, constant: 8.0).isActive = true
-    imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-    imageView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
-    
-    label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4.0).isActive = true
-    label.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-    label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4.0).isActive = true
-    label.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+    topContentConstraint.isActive = true
+    leftContentConstraint.isActive = true
+    bottomContentConstraint.isActive = true
+    rightContentConstraint.isActive = true
   }
 }

@@ -29,7 +29,7 @@ extension SecureEntryView {
     
     case loading(image: UIImage)
     
-    case qrCode(barcode: String, image: UIImage, subtitle: String)
+    case qrCode(barcode: String, image: UIImage)
     
     case staticPDF417(barcode: String, image: UIImage, subtitle: String)
     
@@ -38,8 +38,7 @@ extension SecureEntryView {
       barcode: String?,
       image: UIImage,
       subtitle: String,
-      flipped: Bool,
-      toggled: Bool
+      flipped: Bool
     )
     
     case error(message: String, icon: UIImage)
@@ -60,11 +59,9 @@ extension SecureEntryView {
       case .loading(let image):
         view.barcodeView.imageView.image = image
 
-      case .qrCode(_, let image, let subtitle):
+      case .qrCode(_, let image):
         view.barcodeView.imageView.image = image
         view.barcodeView.imageView.accessibilityLabel = "QR code"
-
-        view.barcodeView.label.text = subtitle
         
       case .staticPDF417(_, let image, let subtitle):
         view.barcodeView.imageView.image = image
@@ -72,15 +69,9 @@ extension SecureEntryView {
         
         view.barcodeView.label.text = subtitle
         
-      case .rotatingPDF417(_, let barcode, let image, let subtitle, _, let toggled):
+      case .rotatingPDF417(_, _, let image, let subtitle, _):
         view.barcodeView.imageView.image = image
-        view.barcodeView.imageView.accessibilityLabel = toggled ? "QR code" : "Barcode"
-
-        if barcode != nil {
-          view.barcodeView.imageView.accessibilityHint = toggled ?
-            "Click here to display the barcode" :
-            "Click here to display the backup QR code for 10 seconds"
-        }
+        view.barcodeView.imageView.accessibilityLabel = "Barcode"
         
         view.barcodeView.label.text = subtitle
         
@@ -90,11 +81,12 @@ extension SecureEntryView {
         view.errorView.imageView.image = icon
       }
       
+      view.barcodeView.label.isHidden = view.barcodeView.label.text?.isEmpty ?? true
       view.barcodeView.isHidden = isBarcodeHidden
       view.errorView.isHidden = isErrorViewHidden
       view.scanAnimationView.isHidden = isScanAnimationViewHidden
-      view.toggleButton.isHidden = isToggleButtonHidden
       
+      view.barcodeView.contentInsets = contentEdgeInsets
       view.barcodeView.imageView.transform = barcodeImageViewTransform
     }
   }
@@ -117,33 +109,20 @@ extension SecureEntryView.State {
     return .customError(messsage: error.message, icon: error.icon)
   }
   
-  func showQRCode(barcode: String, subtitle: String, error: Error) -> SecureEntryView.State {
+  func showQRCode(barcode: String, error: Error) -> SecureEntryView.State {
     guard let image = generateQRBarcode(value: barcode) else {
       return .error(message: error.message, icon: error.icon)
     }
-    return .qrCode(barcode: barcode, image: image, subtitle: subtitle)
+    return .qrCode(barcode: barcode, image: image)
   }
   
   func showRotatingPDF417(
     rotatingBarcode: String,
     barcode: String?,
     pdf417Subtitle: String,
-    qrSubtitle: String,
     error: Error
   ) -> SecureEntryView.State {
-    if case .rotatingPDF417(let oldRotatingBarcode, _, _, _, let flipped, let toggled) = self {
-      
-      // If toggled generate QR Code instead of RET if possible
-      // Consider rewriting as a separated state
-      if toggled, let barcode = barcode, let image = generateQRBarcode(value: barcode) {
-        return .rotatingPDF417(
-          rotatingBarcode: rotatingBarcode,
-          barcode: barcode,
-          image: image,
-          subtitle: qrSubtitle,
-          flipped: (rotatingBarcode == oldRotatingBarcode) == flipped,
-          toggled: toggled)
-      }
+    if case .rotatingPDF417(let oldRotatingBarcode, _, _, _, let flipped) = self {
       
       // Generate PDF417
       guard let image = generatePDF417(value: rotatingBarcode) else {
@@ -152,7 +131,7 @@ extension SecureEntryView.State {
         guard let barcode = barcode, let image = generateQRBarcode(value: barcode) else {
           return .error(message: error.message, icon: error.icon)
         }
-        return .qrCode(barcode: barcode, image: image, subtitle: qrSubtitle)
+        return .qrCode(barcode: barcode, image: image)
       }
       
       return .rotatingPDF417(
@@ -160,8 +139,7 @@ extension SecureEntryView.State {
         barcode: barcode,
         image: image,
         subtitle: pdf417Subtitle,
-        flipped: (rotatingBarcode == oldRotatingBarcode) == flipped,
-        toggled: false
+        flipped: (rotatingBarcode == oldRotatingBarcode) == flipped
       )
     }
     else {
@@ -172,7 +150,7 @@ extension SecureEntryView.State {
         guard let barcode = barcode, let image = generateQRBarcode(value: barcode) else {
           return .error(message: error.message, icon: error.icon)
         }
-        return .qrCode(barcode: barcode, image: image, subtitle: qrSubtitle)
+        return .qrCode(barcode: barcode, image: image)
       }
       
       return .rotatingPDF417(
@@ -180,8 +158,7 @@ extension SecureEntryView.State {
         barcode: barcode,
         image: image,
         subtitle: pdf417Subtitle,
-        flipped: false,
-        toggled: false
+        flipped: false
       )
     }
   }
@@ -189,14 +166,13 @@ extension SecureEntryView.State {
   func showStaticPDF417(
     barcode: String,
     pdf417Subtitle: String,
-    qrSubtitle: String,
     error: Error
   ) -> SecureEntryView.State {
     guard let image = generatePDF417(value: barcode) else {
       guard let image = generateQRBarcode(value: barcode) else {
         return .error(message: error.message, icon: error.icon)
       }
-      return .qrCode(barcode: barcode, image: image, subtitle: qrSubtitle)
+      return .qrCode(barcode: barcode, image: image)
     }
     
     return .staticPDF417(barcode: barcode, image: image, subtitle: pdf417Subtitle)
@@ -222,31 +198,19 @@ extension SecureEntryView.State {
     }
   }
   
-  func setQRCodeSubtitle(_ subtitle: String) -> SecureEntryView.State {
-    switch self {
-      
-    case .qrCode(let barcode, let image, _):
-      return .qrCode(barcode: barcode, image: image, subtitle: subtitle)
-      
-    default:
-      return self
-    }
-  }
-  
   func setPDF417Subtitle(_ subtitle: String) -> SecureEntryView.State {
     switch self {
       
     case .staticPDF417(let barcode, let image, _):
       return .staticPDF417(barcode: barcode, image: image, subtitle: subtitle)
       
-    case .rotatingPDF417(let rotatingBarcode, let barcode, let image, _, let flipped, let toggled):
+    case .rotatingPDF417(let rotatingBarcode, let barcode, let image, _, let flipped):
       return .rotatingPDF417(
         rotatingBarcode: rotatingBarcode,
         barcode: barcode,
         image: image,
         subtitle: subtitle,
-        flipped: flipped,
-        toggled: toggled
+        flipped: flipped
       )
       
     default:
@@ -259,32 +223,6 @@ extension SecureEntryView.State {
       
     case .error(_, let icon):
       return .error(message: message, icon: icon)
-      
-    default:
-      return self
-    }
-  }
-  
-  func toggle() -> SecureEntryView.State {
-    
-    switch self {
-    case .rotatingPDF417(
-      let rotatingBarcode,
-      let barcode,
-      let image,
-      let subtitle,
-      let flipped,
-      let toggled
-    ):
-      
-      return .rotatingPDF417(
-        rotatingBarcode: rotatingBarcode,
-        barcode: barcode,
-        image: image,
-        subtitle: subtitle,
-        flipped: flipped,
-        toggled: !toggled
-      )
       
     default:
       return self
@@ -318,31 +256,37 @@ extension SecureEntryView.State {
       return true
     case .staticPDF417:
       return false
-    case .rotatingPDF417(_, _, _, _, _, let toggled):
-      return toggled
-    }
-  }
-  
-  var isToggleButtonHidden: Bool {
-    switch self {
-    case .rotatingPDF417(_, let barcode, _, _, _, _):
-      return barcode == nil
-    case .none, .loading, .qrCode, .error, .customError, .staticPDF417:
-      return true
+    case .rotatingPDF417(_, _, _, _, _):
+      return false
     }
   }
   
   var barcodeImageViewTransform: CGAffineTransform {
     switch self {
-    case .rotatingPDF417(_, _, _, _, let flipped, let toggled) where flipped && !toggled:
+    case .rotatingPDF417(_, _, _, _, _):
       return .init(scaleX: 1.0, y: -1.0)
     default:
       return .identity
     }
   }
+  
+  var contentEdgeInsets: UIEdgeInsets {
+    switch self {
+    case .none, .error, .customError:
+      return .zero
+    case .qrCode:
+      return UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    case .loading, .staticPDF417, .rotatingPDF417:
+      return UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
+    }
+  }
 }
 
 extension SecureEntryView.State {
+  
+  static let context = CIContext()
+  
+  var context: CIContext { return SecureEntryView.State.context }
   
   func generateQRBarcode(value: String) -> UIImage? {
     guard let filter = CIFilter(name: "CIQRCodeGenerator", parameters: [
@@ -350,7 +294,14 @@ extension SecureEntryView.State {
       "inputMessage": value.dataUsingUTF8StringEncoding
     ]) else { return nil }
     
-    return filter.outputImage.map(UIImage.init(ciImage:))
+    guard let image = filter.outputImage else { return nil }
+    
+    // Remove default paddings to support accurate margins
+    let qrCodePadding = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0)
+    guard let cgImage = context.createCGImage(image, from: image.extent.inset(by: qrCodePadding))
+      else { return nil }
+    
+    return UIImage(cgImage: cgImage)
   }
   
   func generatePDF417(value: String) -> UIImage? {
@@ -359,6 +310,13 @@ extension SecureEntryView.State {
       "inputMessage": value.dataUsingUTF8StringEncoding
     ]) else { return nil }
     
-    return filter.outputImage.map(UIImage.init(ciImage:))
+    guard let image = filter.outputImage else { return nil }
+
+    // Remove default paddings to support accurate margins
+    let pdfCodePadding = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
+    guard let cgImage = context.createCGImage(image, from: image.extent.inset(by: pdfCodePadding))
+      else { return nil }
+    
+    return UIImage(cgImage: cgImage)
   }
 }

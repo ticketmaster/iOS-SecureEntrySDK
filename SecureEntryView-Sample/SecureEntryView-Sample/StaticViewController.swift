@@ -33,7 +33,6 @@ class StaticViewController: UIViewController {
     
     // Scaled view
     staticViewSized.token = "eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ=="
-    staticViewSized.qrSubtitle = ""
 
     // Large view, rendered edge-to-edge (using v4 RET token format, with no RET keys - which should fall back to Static)
     staticViewFull.token = "eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ=="

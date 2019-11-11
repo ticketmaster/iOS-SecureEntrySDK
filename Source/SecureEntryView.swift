@@ -24,59 +24,18 @@ import UIKit
 public final class SecureEntryView: UIView {
   
   // MARK: Public variables
-
-  /**
-   Allows the pdf417's animation and subtitle to be colored.
-   
-   The default value for this property is a *blue* color (set through the *blue* class property of UIColor)
-  */
-  @IBInspectable
-  public var brandingColor: UIColor = .blue {
-    didSet {
-      scanAnimationView.tintColor = brandingColor
-      if isSubtitleBrandingEnabled { barcodeView.label.textColor = brandingColor }
-    }
-  }
-  
-  /**
-   Subtitle for the QR variant of the SafeTix ticket.
-   
-   The default value for this property is *"Screenshots are not accepted for entry"*.
-   
-   - Note:
-   Set an *empty* string to hide subtitle.
-   */
-  @IBInspectable
-  public var qrSubtitle: String = "Screenshots are not accepted for entry" {
-    didSet {
-      state = state.setQRCodeSubtitle(qrSubtitle)
-    }
-  }
-  
   /**
    Subtitle for the PDF417 variant of the SafeTix ticket.
    
-   The default value for this property is *"Screenshots are not accepted for entry"*.
+   The default value for this property is *"Screenshots won't get you in."*.
    
    - Note:
     Set an *empty* string to hide subtitle.
    */
   @IBInspectable
-  public var pdf417Subtitle: String = "Screenshots are not accepted for entry" {
+  public var pdf417Subtitle: String = "Screenshots won't get you in." {
     didSet {
       state = state.setPDF417Subtitle(pdf417Subtitle)
-    }
-  }
-  
-  /**
-   Set true to use *brandingColor* instead of *#262626* for subtitles.
-   
-   The default value for this property is *false*.
-   */
-  @IBInspectable
-  public var isSubtitleBrandingEnabled: Bool = false {
-    didSet {
-      barcodeView.label.textColor = isSubtitleBrandingEnabled ? brandingColor : .mineShaft
     }
   }
   
@@ -124,21 +83,7 @@ public final class SecureEntryView: UIView {
       state.update(self)
       
       switch state {
-      case .rotatingPDF417(_, _, _, _, _, let toggle):
-        
-        if toggle {
-          if toggleTimer == nil {
-            toggleTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) {
-              [weak self] (_) in
-              guard let this = self else { return }
-              this.toggle(this)
-            }
-          }
-        }
-        else {
-          toggleTimer?.invalidate()
-          toggleTimer = nil
-        }
+      case .rotatingPDF417(_, _, _, _, _):
         
         if case .rotatingPDF417 = oldValue { return }
         
@@ -148,9 +93,6 @@ public final class SecureEntryView: UIView {
         timer?.tolerance = 0.25
         
       default:
-        toggleTimer?.invalidate()
-        toggleTimer = nil
-        
         timer?.invalidate()
         timer = nil
       }
@@ -158,8 +100,6 @@ public final class SecureEntryView: UIView {
   }
 
   var timer: Timer?
-  
-  var toggleTimer: Timer?
   
   var loadingImage: UIImage?
   
@@ -169,14 +109,6 @@ public final class SecureEntryView: UIView {
     let subtitledView = SubtitledView()
     subtitledView.translatesAutoresizingMaskIntoConstraints = false
     return subtitledView
-  }()
-  
-  lazy var toggleButton: UIButton = {
-    let button = UIButton()
-    button.isAccessibilityElement = false
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.addTarget(self, action: #selector(toggle(_:)), for: .touchUpInside)
-    return button
   }()
   
   lazy var errorView: ErrorView = {
@@ -210,7 +142,6 @@ public final class SecureEntryView: UIView {
   
   deinit {
     timer?.invalidate()
-    toggleTimer?.invalidate()
   }
   
   // MARK: Overriten Methods
@@ -262,7 +193,6 @@ extension SecureEntryView {
     addSubview(barcodeView)
     addSubview(scanAnimationView)
     addSubview(errorView)
-    addSubview(toggleButton)
   }
   
   func makeConstraints() {
@@ -290,10 +220,10 @@ extension SecureEntryView {
     // MARK: Scan Animation View Constraints
     do {
       scanAnimationView.widthAnchor.constraint(equalTo: barcodeView.widthAnchor).isActive = true
-      scanAnimationView.centerXAnchor.constraint(equalTo: barcodeView.centerXAnchor).isActive = true
-      scanAnimationView.centerYAnchor.constraint(equalTo: barcodeView.centerYAnchor).isActive = true
+      scanAnimationView.centerXAnchor.constraint(equalTo: barcodeView.imageView.centerXAnchor).isActive = true
+      scanAnimationView.centerYAnchor.constraint(equalTo: barcodeView.imageView.centerYAnchor).isActive = true
       scanAnimationView.heightAnchor.constraint(
-        equalTo: barcodeView.heightAnchor,
+        equalTo: barcodeView.imageView.heightAnchor,
         constant: 16.0
         ).isActive = true
     }
@@ -302,14 +232,6 @@ extension SecureEntryView {
     do {
       errorView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
       errorView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-    }
-    
-    // MARK : Toggle Button Constraints
-    do {
-      toggleButton.widthAnchor.constraint(equalTo: barcodeView.widthAnchor).isActive = true
-      toggleButton.heightAnchor.constraint(equalTo: barcodeView.heightAnchor).isActive = true
-      toggleButton.centerXAnchor.constraint(equalTo: barcodeView.centerXAnchor).isActive = true
-      toggleButton.centerYAnchor.constraint(equalTo: barcodeView.centerYAnchor).isActive = true
     }
   }
   
@@ -341,7 +263,6 @@ extension SecureEntryView {
         rotatingBarcode: value,
         barcode: barcode,
         pdf417Subtitle: pdf417Subtitle,
-        qrSubtitle: qrSubtitle,
         error: (message: errorMessage, icon: .alert)
       )
       
@@ -349,38 +270,15 @@ extension SecureEntryView {
       state = state.showStaticPDF417(
         barcode: barcode,
         pdf417Subtitle: pdf417Subtitle,
-        qrSubtitle: qrSubtitle,
         error: (message: errorMessage, icon: .alert)
       )
       
     case .some(.qrCode(let barcode)):
       state = state.showQRCode(
         barcode: barcode,
-        subtitle: qrSubtitle,
         error: (message: errorMessage, icon: .alert)
       )
     }
-  }
-  
-  @objc
-  func toggle(_ sender: Any) {
-    self.state = self.state.toggle()
-    
-    guard !UIAccessibility.isVoiceOverRunning else {
-      self.update()
-      UIAccessibility.post(notification: .layoutChanged, argument: nil)
-      return
-    }
-    
-    UIView.transition(
-      with: barcodeView,
-      duration: 0.3,
-      options: [.transitionCrossDissolve],
-      animations: {
-        self.update()
-      },
-      completion: { _ in UIAccessibility.post(notification: .layoutChanged, argument: nil) }
-    )
   }
 }
 

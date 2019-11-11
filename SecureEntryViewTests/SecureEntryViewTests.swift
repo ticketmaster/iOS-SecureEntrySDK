@@ -17,32 +17,14 @@ private final class SecureEntryViewTests: XCTestCase {
   private static let V4_QR_CODE: String = "eyJiIjoiMDg2NzM0NjQ3NjA0MTYxNmEiLCJydCI6ImJhcmNvZGUifQ=="
   private static let V4_ROTATING_TOKEN: String = "eyJiIjoiODUwMDYxNTcwMjU3USIsInQiOiJCQUlBV0xGYml6dU9FUUFBQUFBQUFBQUFBQUNqdXh3dTlEZXpieFRQbktjOFRhVkxabFpPQ3pYYXh4YWtKMWdWIiwiY2siOiJkN2ZhMGEwZTc4NzJhYzVkNDY2MjhlMmY5YWZkMDExMWVjOGU4N2JmIiwiZWsiOiI5YTE2MDUwOTc3OWU2MDhhZGZlZTg0YmQyN2QwODc3YTVjY2U5MTY2IiwicnQiOiJyb3RhdGluZ19zeW1ib2xvZ3kifQ=="
   
-  func test_init_withDefaultBrandingColor() {
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-    let secureEntryView: SecureEntryView = SecureEntryView()
-    XCTAssert(secureEntryView.brandingColor == .blue)
-  }
-  
-  func test_setBrandingColor_Should_Set_BrandingColor() {
-    let secureEntryView: SecureEntryView = SecureEntryView()
-    
-    // when
-    secureEntryView.brandingColor = .purple;
-    
-    // then
-    XCTAssert(secureEntryView.brandingColor == UIColor.purple)
-  }
-  
   func test_setBarcodeSubtitle_Should_Set_BarcodeSubtitle() {
     let secureEntryView: SecureEntryView = SecureEntryView()
     
     // when
     secureEntryView.pdf417Subtitle = "Screenshots are a no go!"
-    secureEntryView.qrSubtitle = "Screenshots are a no go!"
     
     //then
     XCTAssert(secureEntryView.pdf417Subtitle == "Screenshots are a no go!")
-    XCTAssert(secureEntryView.qrSubtitle == "Screenshots are a no go!")
   }
   
   func test_setBarcodeSubtitle_Blank_Should_Set_BarcodeSubtitleBlank() {
@@ -50,29 +32,13 @@ private final class SecureEntryViewTests: XCTestCase {
     
     //when
     secureEntryView.pdf417Subtitle = ""
-    secureEntryView.qrSubtitle = ""
     
     //then
     XCTAssert(secureEntryView.pdf417Subtitle.isEmpty)
-    XCTAssert(secureEntryView.qrSubtitle.isEmpty)
   }
   
-  func test_enableBrandingSubtitle_Should_Be_Colored() {
+  func test_verify_color_subtitle_text(){
     let secureEntryView: SecureEntryView = SecureEntryView()
-    
-    //when
-    secureEntryView.brandingColor = .purple
-    secureEntryView.isSubtitleBrandingEnabled = true
-    
-    //then
-    XCTAssert(secureEntryView.barcodeView.label.textColor == .purple)
-  }
-  
-  func test_enableBrandinSubtitle_False_Should_Be_Default_Color(){
-    let secureEntryView: SecureEntryView = SecureEntryView()
-    
-    //when
-    secureEntryView.brandingColor = .purple
 
     //then
     XCTAssert(secureEntryView.barcodeView.label.textColor == .mineShaft)
@@ -175,7 +141,7 @@ private final class SecureEntryViewTests: XCTestCase {
     let secureEntryView: SecureEntryView = SecureEntryView()
     secureEntryView.token = SecureEntryViewTests.V3_ROTATING_TOKEN
     
-    guard case .rotatingPDF417(_, _, let image, _, _, _) = secureEntryView.state else {
+    guard case .rotatingPDF417(_, _, let image, _, _) = secureEntryView.state else {
       XCTFail("Wrong State")
       return
     }
@@ -187,7 +153,7 @@ private final class SecureEntryViewTests: XCTestCase {
     let secureEntryView: SecureEntryView = SecureEntryView()
     secureEntryView.token = SecureEntryViewTests.V4_ROTATING_TOKEN
     
-    guard case .rotatingPDF417(_, _, let image, _, _, _) = secureEntryView.state else {
+    guard case .rotatingPDF417(_, _, let image, _, _) = secureEntryView.state else {
       XCTFail("Wrong State")
       return
     }
@@ -199,7 +165,7 @@ private final class SecureEntryViewTests: XCTestCase {
     let secureEntryView: SecureEntryView = SecureEntryView()
     secureEntryView.token = SecureEntryViewTests.V3_QR_CODE_TOKEN
     
-    guard case .qrCode(_, let image, _) = secureEntryView.state else {
+    guard case .qrCode(_, let image) = secureEntryView.state else {
       XCTFail("Wrong State")
       return
     }
@@ -221,7 +187,7 @@ private final class SecureEntryViewTests: XCTestCase {
       return
     }
     
-    guard case .rotatingPDF417(let value, _, _, _, _, _) = secureEntryView.state else {
+    guard case .rotatingPDF417(let value, _, _, _, _) = secureEntryView.state else {
       XCTFail("Wrong State")
       return
     }
@@ -249,7 +215,7 @@ private final class SecureEntryViewTests: XCTestCase {
       return
     }
     
-    guard case .rotatingPDF417(let value, _, _, _, _, _) = secureEntryView.state else {
+    guard case .rotatingPDF417(let value, _, _, _, _) = secureEntryView.state else {
       XCTFail("Wrong State")
       return
     }

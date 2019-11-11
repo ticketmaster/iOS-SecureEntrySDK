@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZlN-v6-9qz">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZlN-v6-9qz">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -262,7 +260,7 @@
                                 <rect key="frame" x="16" y="44" width="382" height="769"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Udz-Nf-Sfm">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="1660.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="1464"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6fs-No-slI">
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="48.5"/>
@@ -468,28 +466,6 @@
                                                     <constraint firstItem="Tpy-fH-sNs" firstAttribute="centerX" secondItem="hp7-d0-edf" secondAttribute="centerX" id="gt8-q1-1ha"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rotating - Branded Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Io8-E6-7Nr">
-                                                <rect key="frame" x="0.0" y="1472" width="382" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rqN-3c-4A2">
-                                                <rect key="frame" x="0.0" y="1500.5" width="382" height="160"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="216" placeholderIntrinsicHeight="160" translatesAutoresizingMaskIntoConstraints="NO" id="IN2-r3-9tB" userLabel="Branding Text Entry View" customClass="SecureEntryView" customModule="Presence">
-                                                        <rect key="frame" x="83" y="0.0" width="216" height="160"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstItem="IN2-r3-9tB" firstAttribute="centerX" secondItem="rqN-3c-4A2" secondAttribute="centerX" id="FH2-nu-je4"/>
-                                                    <constraint firstAttribute="bottom" secondItem="IN2-r3-9tB" secondAttribute="bottom" id="Krx-dx-wqC"/>
-                                                    <constraint firstItem="IN2-r3-9tB" firstAttribute="centerY" secondItem="rqN-3c-4A2" secondAttribute="centerY" id="aD9-8z-vJy"/>
-                                                    <constraint firstItem="IN2-r3-9tB" firstAttribute="top" secondItem="rqN-3c-4A2" secondAttribute="top" id="gfa-gA-JUD"/>
-                                                </constraints>
-                                            </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -515,7 +491,6 @@
                     <tabBarItem key="tabBarItem" title="Rotating" image="Rotating" landscapeImage="Rotating" largeContentSizeImage="Rotating" id="79Q-ht-lqh"/>
                     <connections>
                         <outlet property="retView" destination="QIW-LW-8P1" id="2qY-oy-xIg"/>
-                        <outlet property="retViewBrandedText" destination="IN2-r3-9tB" id="cDo-jh-03r"/>
                         <outlet property="retViewFull" destination="j1t-EN-kPR" id="auV-Q5-GBf"/>
                         <outlet property="retViewInvalid" destination="Taa-31-sZz" id="zDV-3o-CNf"/>
                         <outlet property="retViewNoText" destination="Tpy-fH-sNs" id="DBb-Gh-y1c"/>
