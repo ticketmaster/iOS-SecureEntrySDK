@@ -1,10 +1,9 @@
 //
-//  StringExtension.swift
-//  Base32
+//  UInt64+Data.swift
+//  SwiftOTP
 //
-//  Created by 野村 憲男 on 2/7/15.
-//
-//  Copyright (c) 2015 Norio Nomura
+//  Created by Lachlan Bell on 20/11/18.
+//  Copyright © 2018 Lachlan Bell. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -16,6 +15,14 @@
 //  The above copyright notice and this permission notice shall be included in
 //  all copies or substantial portions of the Software.
 //
+//  Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+//  distribute, sublicense, create a derivative work, and/or sell copies of the
+//  Software in any work that is designed, intended, or marketed for pedagogical or
+//  instructional purposes related to programming, coding, application development,
+//  or information technology.  Permission for such use, copying, modification,
+//  merger, publication, distribution, sublicensing, creation of derivative works,
+//  or sale is expressly withheld.
+//
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,20 +33,11 @@
 
 import Foundation
 
-// MARK: - private
-
-extension String {
-    /// Data never nil
-    var dataUsingUTF8StringEncoding: Data {
-        return utf8CString.withUnsafeBufferPointer {
-            return Data(_: $0.dropLast().map { UInt8.init($0) })
-        }
-    }
-    
-    /// Array<UInt8>
-    var arrayUsingUTF8StringEncoding: [UInt8] {
-        return utf8CString.withUnsafeBufferPointer {
-            return $0.dropLast().map { UInt8.init($0) }
-        }
-    }
+extension UInt64 {
+	/// Data from UInt64
+	var data: Data {
+		var int = self
+		let intData = Data(bytes: &int, count: MemoryLayout.size(ofValue: self))
+		return intData
+	}
 }

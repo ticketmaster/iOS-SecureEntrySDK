@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "iOS-SecureEntrySDK"
-  spec.version      = "1.1.0"
+  spec.version      = "1.2.0"
   spec.summary      = "TicketMaster iOS-SecureEntrySDK."
 
   spec.description  = "The SecureEntrySDK allows 3rd party apps and services to display Ticketmaster users’ secured tickets"
@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.source       = { :git => "https://github.com/ticketmaster/iOS-SecureEntrySDK.git", :tag => "#{spec.version}" }
 
-  spec.swift_version = '4.2'
+  spec.swift_version = '5.0'
 
   spec.resources = 'Source/Resources/Media.xcassets'
   spec.source_files  = "Source/**/*.{h,swift}"

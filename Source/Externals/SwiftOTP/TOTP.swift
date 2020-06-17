@@ -13,10 +13,21 @@
 import Foundation
 
 enum OTPAlgorithm {
-  //Hash Algorithm to use, either SHA-1, SHA-256 or SHA-512
   case sha1
   case sha256
   case sha512
+  
+  /// CryptoSwift HMAC variant equivalent
+  internal var hmacVariant: HMAC.Variant {
+    switch self {
+    case .sha1:
+      return HMAC.Variant.sha1
+    case .sha256:
+      return HMAC.Variant.sha256
+    case .sha512:
+      return HMAC.Variant.sha512
+    }
+  }
 }
 
 final class TOTP {
@@ -44,12 +55,15 @@ final class TOTP {
     // Attempt to use sanetime first, but fallback to device time if unavailable
     let timestamp = Clock.timestamp ?? Date().timeIntervalSince1970
     let counter = UInt64(floor(timestamp) / timeInterval)
-    let otp = GenerateOTP(
+    let generator = Generator()
+    guard let otp = generator.generateOTP(
       secret: secret,
       algorithm: algorithm,
       counter: counter,
       digits: digits
-    )
+      ) else{
+        return ("", counter * UInt64(timeInterval))
+    }
     return (otp, counter * UInt64(timeInterval))
   }
 }

@@ -116,7 +116,7 @@ extension EntryData {
       }
       index = nextIndex
     }
-    return Data(bytes: bytes)
+    return Data(_: bytes)
   }
 }
 

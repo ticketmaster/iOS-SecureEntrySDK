@@ -372,10 +372,32 @@ private final class SecureEntryViewTests: XCTestCase {
       XCTAssert(false, "Encoded bytes should NOT be nil")
       return
     }
-    let actual: [Int8] = bytes.withUnsafeBytes {
-      [Int8](UnsafeBufferPointer(start: $0, count: bytes.count))
-    }
+    
+    let actual = bytes.bytes.map { Int8(bitPattern: $0) }
     
     XCTAssertEqual(expected, actual)
   }
+  
+  func test_generator() {
+    typealias TOTPTestData = (key: String, timestamp: TimeInterval, expectedOTP: String)
+
+    let testDataSet: [TOTPTestData] = [
+      (key: "02edfc5b9910274a63e6e26161ed93811b9378b1", timestamp: 1588021679, expectedOTP: "369201"),
+      (key: "fc18ad26a0745135f3bc945477275025a296be75", timestamp: 1588021679, expectedOTP: "727432")
+    ]
+
+    testDataSet.forEach { (testData) in
+      guard let secret: Data = EntryData.encodeOTPSecretBytes(testData.key) else {
+        XCTFail("Failed to encode key")
+        return
+      }
+
+      let timeInterval: TimeInterval = 15
+      let counter = UInt64(floor(testData.timestamp) / timeInterval)
+      let actualOTP = Generator().generateOTP(secret: secret, algorithm: .sha1, counter: counter, digits: 6)
+
+      XCTAssertEqual(testData.expectedOTP, actualOTP)
+    }
+  }
+
 }

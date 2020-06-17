@@ -28,63 +28,59 @@ extension Data {
     }
 
     func md5() -> Data {
-        return Data(bytes: Digest.md5(bytes))
+        return Data(_: Digest.md5(bytes))
     }
 
     func sha1() -> Data {
-        return Data(bytes: Digest.sha1(bytes))
+        return Data(_: Digest.sha1(bytes))
     }
 
     func sha224() -> Data {
-        return Data(bytes: Digest.sha224(bytes))
+        return Data(_: Digest.sha224(bytes))
     }
 
     func sha256() -> Data {
-        return Data(bytes: Digest.sha256(bytes))
+        return Data(_: Digest.sha256(bytes))
     }
 
     func sha384() -> Data {
-        return Data(bytes: Digest.sha384(bytes))
+        return Data(_: Digest.sha384(bytes))
     }
 
     func sha512() -> Data {
-        return Data(bytes: Digest.sha512(bytes))
+        return Data(_: Digest.sha512(bytes))
     }
 
     func sha3(_ variant: SHA3.Variant) -> Data {
-        return Data(bytes: Digest.sha3(bytes, variant: variant))
+        return Data(_: Digest.sha3(bytes, variant: variant))
     }
 
     func crc32(seed: UInt32? = nil, reflect: Bool = true) -> Data {
-        return Data(bytes: Checksum.crc32(bytes, seed: seed, reflect: reflect).bytes())
+        return Data(_: Checksum.crc32(bytes, seed: seed, reflect: reflect).bytes())
     }
 
     func crc32c(seed: UInt32? = nil, reflect: Bool = true) -> Data {
-        return Data(bytes: Checksum.crc32c(bytes, seed: seed, reflect: reflect).bytes())
+        return Data(_: Checksum.crc32c(bytes, seed: seed, reflect: reflect).bytes())
     }
 
     func crc16(seed: UInt16? = nil) -> Data {
-        return Data(bytes: Checksum.crc16(bytes, seed: seed).bytes())
+        return Data(_: Checksum.crc16(bytes, seed: seed).bytes())
     }
 
     func encrypt(cipher: Cipher) throws -> Data {
-        return Data(bytes: try cipher.encrypt(bytes.slice))
+        return Data(_: try cipher.encrypt(bytes.slice))
     }
 
     func decrypt(cipher: Cipher) throws -> Data {
-        return Data(bytes: try cipher.decrypt(bytes.slice))
+        return Data(_: try cipher.decrypt(bytes.slice))
     }
 
     func authenticate(with authenticator: Authenticator) throws -> Data {
-        return Data(bytes: try authenticator.authenticate(bytes))
+        return Data(_: try authenticator.authenticate(bytes))
     }
 }
 
 extension Data {
-    init(hex: String) {
-        self.init(bytes: Array<UInt8>(hex: hex))
-    }
-
     var bytes: Array<UInt8> {
         return Array(self)
     }
